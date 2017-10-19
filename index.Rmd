@@ -5,9 +5,8 @@ subtitle: Subtitle here if desired
 ---
 
 # Introduction
-My really awesome and complete introduction will go here.  
+During the Late Ordovician, the different stages are marked by graptolite species turnover. However, the drivers behind these species turnovers remain unknown. Studies on common causes can help to determine correlation with other factors, such as sedimentary package truncation, which may be directly related to the observed turnover. As such, this project will be looking to determine if there is correlation between graptolite species occurrence and either temporal sedimentary package or environmental sedimentary package truncation at the boundaries between the Darriwilian, Sandbian, and Katian stages. 
 
-> I know words.  I have the best words.  ~ Donald Trump
 
 # Materials and methods
 
