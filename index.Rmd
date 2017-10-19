@@ -1,7 +1,7 @@
 ---
-title: "I have the best titles"
+title: "Graptolite species turnover through the early Late Ordovician"
 author: Erin Schuster
-subtitle: Subtitle here if desired
+subtitle: Correlation to temporal or environmental truncation
 ---
 
 # Introduction
