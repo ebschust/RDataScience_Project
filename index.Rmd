@@ -77,4 +77,4 @@ Show tables, plots, etc. and describe them.
 What have you learned?  Are there any broader implications?
 
 # References
-
+Finnegan, Seth
