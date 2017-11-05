@@ -5,7 +5,7 @@ subtitle: Correlation to temporal, geographic, or authorial factors?
 ---
 
 # Introduction
-Taxonomy is the method by which organisms are assigned to a genus and species group. It is a science that is constantly evolving due to our growing knowledge of a group of organisms. This is especially true of graptolite taxonomy. Early work with graptolites focused solely on naming graptolites for use in biostratigraphy, meaning that graptolites were loosely grouped based on their general appearance instead of evolutionary or trait based backing. As studies into the evolution in graptolite morphology, or genetics based traits increased, there was an increasing realization that synonymies, or the same type of organism with different taxonomic names, existed. Through carefully examination of graptolite literature these synonyms are slowly being identified (Mitchell, unpublished data). However, the presence of synonyms may not only be due to changes in graptolite research through time. These synonyms may be geographically located either due to a cultural preference for generating new species or a tectonically strained region where morphology is more difficult to constrain. It may also be that particular authors were more likely to generate new species names due to a variety of factors.  This research will attempt to examine any correlation by first mapping the presence of graptolites that both with and without synonyms on a world map to visually determine locations with more synonymies. This map will then be animated such that the graptolite locations will plot based upon the year that they were named. If there is a temporal correlation to synonymies, more synonyms should plot within a given time frame than others. Finally, the graptolites with synonyms will be grouped by the original naming author with the number of individual species summed per author to determine if there is an author based correlation.
+Taxonomy is the method by which organisms are assigned to a genus and species group. It is a science that is constantly evolving due to our growing knowledge of a group of organisms. This is especially true of graptolite taxonomy. Early work with graptolites focused solely on naming graptolites for use in biostratigraphy, meaning that graptolites were loosely grouped based on their general appearance instead of evolutionary or trait based backing. As studies into the evolution in graptolite morphology, or genetics based traits increased, there was an increasing realization that synonymies, or the same type of organism with different taxonomic names, existed. Through carefully examination of graptolite literature these synonyms are slowly being identified (Mitchell et. al, unpublished data). However, the presence of synonyms may not only be due to changes in graptolite research through time. These synonyms may be geographically located either due to a cultural preference for generating new species or a tectonically strained region where morphology is more difficult to constrain. It may also be that particular authors were more likely to generate new species names due to a variety of factors.  This research will attempt to examine any correlation by first mapping the presence of graptolites that both with and without synonyms on a world map to visually determine locations with more synonymies. This map will then be animated such that the graptolite locations will plot based upon the year that they were named. If there is a temporal correlation to synonymies, more synonyms should plot within a given time frame than others. Finally, the graptolites with synonyms will be grouped by the original naming author with the number of individual species summed per author to determine if there is an author based correlation.
 
 
 # Materials and methods
@@ -27,11 +27,6 @@ You can do numbers like this:
 See [http://rmarkdown.rstudio.com/](http://rmarkdown.rstudio.com/) for all the amazing things you can do.
 
 
-Here's my first code chunk.
-```{r}
-1+2
-```
-
 Load any required packages in a code chunk (you may need to install some packages):
 
 ```{r, message=F, warning=F}
@@ -42,6 +37,10 @@ library(spocc)
 knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ```
 
+Here's my first code chunk.
+```{r}
+1+2
+```
 
 We are going to use the `occ()` function to download _occurrence_ records for the American robin (_Turdus migratorius_) from the [Global Biodiversity Information Facility](gbif.org).
 
@@ -57,14 +56,30 @@ d = occ(query=sp, from='ebird',limit = 100) %>% occ2df()
 ```
 This can take a few seconds.
 
-```{r, fig.width=6, fig.height=3, fig.cap="Map illustrating the known occurrence locations"}
-# Load coastline
-map=map_data("world")
+```{r, fig.width=6, fig.height=3, fig.cap="Map illustrating graptolite locations"}
+#Load a world map
+install.packages("ggmap")
+library(ggmap)
+library(maptools)
+library(maps)
 
-ggplot(d,aes(x=longitude,y=latitude))+
-  geom_polygon(aes(x=long,y=lat,group=group),data=map)+
-  geom_point(col="red")+
+worldmap=borders("world",colour="gray50",fill="white")
+#plot points on world map
+mapWorld=ggplot()+worldmap
+
+mapWorld+
+  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
+  geom_point(data=synGrap_locate,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
   coord_equal()
+#Warning will appear: (this is normal and reflects data without coordinates)
+
+  ##Warning messages:
+  ##1: Removed 3404 rows containing missing values
+  ##(geom_point). 
+  ##2: Removed 1333 rows containing missing values
+  ##(geom_point). 
+
+#Need to figure out how to incorporate the legend so that blue=synonymies & red=no synonymies
 ```
 
 
@@ -77,4 +92,5 @@ Show tables, plots, etc. and describe them.
 What have you learned?  Are there any broader implications?
 
 # References
-
+Mitchell, Charles et. al., Graptolite Sections Data, unpublished data.
+Mitchell, Charles et. al. Graptolite Taxonomic Dictionary, unpublished data.
