@@ -1,11 +1,11 @@
 ---
-title: "Graptolite species turnover through the early Late Ordovician"
+title: "Graptolite Synonymies"
 author: Erin Schuster
-subtitle: Correlation to temporal or environmental truncation
+subtitle: Correlation to temporal, geographic, or authorial factors?
 ---
 
 # Introduction
-During the Late Ordovician, the different stages are marked by graptolite species turnover. However, the drivers behind these species turnovers remain unknown. Studies on common causes can help to determine correlation with other factors, such as sedimentary package truncation, which may be directly related to the observed turnover. As such, this project will be looking to determine if there is correlation between graptolite species occurrence and either temporal sedimentary package or environmental sedimentary package truncation at the boundaries between the Darriwilian, Sandbian, and Katian stages. 
+Taxonomy is the method by which organisms are assigned to a genus and species group. It is a science that is constantly evolving due to our growing knowledge of a group of organisms. This is especially true of graptolite taxonomy. Early work with graptolites focused solely on naming graptolites for use in biostratigraphy, meaning that graptolites were loosely grouped based on their general appearance instead of evolutionary or trait based backing. As studies into the evolution in graptolite morphology, or genetics based traits increased, there was an increasing realization that synonymies, or the same type of organism with different taxonomic names, existed. Through carefully examination of graptolite literature these synonyms are slowly being identified (Mitchell, unpublished data). However, the presence of synonyms may not only be due to changes in graptolite research through time. These synonyms may be geographically located either due to a cultural preference for generating new species or a tectonically strained region where morphology is more difficult to constrain. It may also be that particular authors were more likely to generate new species names due to a variety of factors.  This research will attempt to examine any correlation by first mapping the presence of graptolites that both with and without synonyms on a world map to visually determine locations with more synonymies. This map will then be animated such that the graptolite locations will plot based upon the year that they were named. If there is a temporal correlation to synonymies, more synonyms should plot within a given time frame than others. Finally, the graptolites with synonyms will be grouped by the original naming author with the number of individual species summed per author to determine if there is an author based correlation.
 
 
 # Materials and methods
@@ -77,4 +77,4 @@ Show tables, plots, etc. and describe them.
 What have you learned?  Are there any broader implications?
 
 # References
-Finnegan, Seth
+
