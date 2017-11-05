@@ -10,24 +10,13 @@ Taxonomy is the method by which organisms are assigned to a genus and species gr
 
 # Materials and methods
 
-Narrative and most code will go here.  Describe what you are doing and show how to do it (with code).
+The presence of graptolite synonymies may be correlated to a number of factors including time, cultural or tectonic location, and author. The project will combine data on synonymies, contained within the Taxonomic Dictionary (Mitchell et. al., unpublished data), with graptolite locatlity information, complied as section data (Mitchell et. al., unpublished data). This will be used to:
 
-You can do bullets like this:
+1. Examine geographic distribution of graptolites with synonymies compared to graptolites without synonymies
+2. Examine temporal distribution of both groupings of graptolites
+3. Determine relationship of number of synonymies related to naming author.
 
-* The first most important thing
-* The second most important thing
-* The third most important thing
-
-You can do numbers like this:
-
-1. The first most important thing
-2. The second most important thing
-3. The third most important thing
-
-See [http://rmarkdown.rstudio.com/](http://rmarkdown.rstudio.com/) for all the amazing things you can do.
-
-
-Load required packages in a code chunk (you may need to install some packages):
+Intially, the required packages will need to be loaded (you may need to install some packages):
 
 ```{r, message=F, warning=F}
 library(dplyr)
@@ -38,7 +27,7 @@ library(maptools)
 library(ggplot2)
 ```
 
-The data is contained in two comma separated files (CSV) that will need to be loaded into Rstudio from the working directory. As such, it is important to make sure that the working directory contains both of the Taxonomic Dictionary and the section data.
+The data is contained in two comma separated files (CSV) that will need to be loaded into Rstudio from the working directory. As such, it is important to make sure that the working directory contains both the Taxonomic Dictionary and the section data.
 ```{r}
 #Load Taxonomic Dictionary
 
@@ -48,6 +37,8 @@ myDict=read.csv("Taxonomic dictionary Oct3'17_mod.csv",header=T,sep=",")
 
 mySect=read.csv("sections_table format.csv", header=T, sep =",")
 ```
+(There seems to be an error in loading the CSV files. It works fine from a script in Rstudio but will not work from the RMD file even if the working directory is properly set. Unsure how to rectify this problem.)
+
 
 After loading both CSV files, the section data and the Taxonomic Dictionary must be joined so that all the geographic locations are paired with the correct taxonomic information including the presence of senior synonyms. This data is then filtered by the senior synonym column in order to generate a list that contains only graptolite locations with named senior synonyms.
 ```{r}
