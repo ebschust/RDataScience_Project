@@ -58,6 +58,7 @@ library(maptools)
 library(maps)
 
 worldmap=borders("world",colour="gray50",fill="white")
+
 #plot points on world map
 mapWorld=ggplot()+worldmap
 
@@ -65,15 +66,6 @@ mapWorld+
   geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
   geom_point(data=synGrap_locate,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
   coord_equal()
-#Warning will appear: (this is normal and reflects data without coordinates)
-
-  ##Warning messages:
-  ##1: Removed 3404 rows containing missing values
-  ##(geom_point). 
-  ##2: Removed 1333 rows containing missing values
-  ##(geom_point). 
-
-#Need to figure out how to incorporate the legend so that blue=synonymies & red=no synonymies
 ```
 Areas that contain only red points indicate locations were there are no graptolite synonymies.
 
