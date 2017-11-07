@@ -31,11 +31,11 @@ The data is contained in two comma separated files (CSV) that will need to be lo
 ```{r}
 #Load Taxonomic Dictionary
 
-myDict=read.csv("Taxonomic dictionary Oct3'17_mod.csv",header=T,sep=",")
+myDict=read.csv("data/Taxonomic dictionary Oct3'17_mod.csv",header=T,sep=",")
 
 #Load section data
 
-mySect=read.csv("sections_table format.csv", header=T, sep =",")
+mySect=read.csv("data/sections_table format.csv", header=T, sep =",")
 ```
 (There seems to be an error in loading the CSV files. It works fine from a script in Rstudio but will not work from the RMD file even if the working directory is properly set. Unsure how to rectify this problem.)
 
@@ -46,7 +46,7 @@ After loading both CSV files, the section data and the Taxonomic Dictionary must
 Grap_locate=full_join(mySect,myDict,by="GRCode")
 
 #Generate synonoym list
-synGrap_locate=filter(grap_locate, senior.synonym!="*" & senior.synonym!=99999)
+synGrap_locate=filter(Grap_locate, senior.synonym!="*" & senior.synonym!=99999)
 ```
 
 These two data sets are then visually compared by overlapping the synonyms list over all of the graptolite locations on a world map.
