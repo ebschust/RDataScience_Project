@@ -12,7 +12,7 @@
 <meta name="author" content="Erin Schuster" />
 
 
-<title>Graptolite species turnover through the early Late Ordovician</title>
+<title>Graptolite Synonymies</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -296,8 +296,8 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Graptolite species turnover through the early Late Ordovician</h1>
-<h3 class="subtitle"><em>Correlation to temporal or environmental truncation</em></h3>
+<h1 class="title toc-ignore">Graptolite Synonymies</h1>
+<h3 class="subtitle"><em>Correlation to temporal, geographic, or authorial factors?</em></h3>
 <h4 class="author"><em>Erin Schuster</em></h4>
 
 </div>
@@ -305,54 +305,72 @@ div.tocify {
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>During the Late Ordovician, the different stages are marked by graptolite species turnover. However, the drivers behind these species turnovers remain unknown. Studies on common causes can help to determine correlation with other factors, such as sedimentary package truncation, which may be directly related to the observed turnover. As such, this project will be looking to determine if there is correlation between graptolite species occurrence and either temporal sedimentary package or environmental sedimentary package truncation at the boundaries between the Darriwilian, Sandbian, and Katian stages.</p>
+<p>Taxonomy is the method by which organisms are assigned to a genus and species group. It is a science that is constantly evolving due to our growing knowledge of a group of organisms. This is especially true of graptolite taxonomy. Early work with graptolites focused solely on naming graptolites for use in biostratigraphy, meaning that graptolites were loosely grouped based on their general appearance instead of evolutionary or trait based backing. As studies into the evolution in graptolite morphology, or genetics based traits increased, there was an increasing realization that synonymies, or the same type of organism with different taxonomic names, existed. Through carefully examination of graptolite literature these synonyms are slowly being identified (Mitchell et. al, unpublished data). However, the presence of synonyms may not only be due to changes in graptolite research through time. These synonyms may be geographically located either due to a cultural preference for generating new species or a tectonically strained region where morphology is more difficult to constrain. It may also be that particular authors were more likely to generate new species names due to a variety of factors. This research will attempt to examine any correlation by first mapping the presence of graptolites that both with and without synonyms on a world map to visually determine locations with more synonymies. This map will then be animated such that the graptolite locations will plot based upon the year that they were named. If there is a temporal correlation to synonymies, more synonyms should plot within a given time frame than others. Finally, the graptolites with synonyms will be grouped by the original naming author with the number of individual species summed per author to determine if there is an author based correlation.</p>
 </div>
 <div id="materials-and-methods" class="section level1">
 <h1>Materials and methods</h1>
-<p>Narrative and most code will go here. Describe what you are doing and show how to do it (with code).</p>
-<p>You can do bullets like this:</p>
-<ul>
-<li>The first most important thing</li>
-<li>The second most important thing</li>
-<li>The third most important thing</li>
-</ul>
-<p>You can do numbers like this:</p>
+<p>The presence of graptolite synonymies may be correlated to a number of factors including time, cultural or tectonic location, and author. The project will combine data on synonymies, contained within the Taxonomic Dictionary (Mitchell et. al., unpublished data), with graptolite locatlity information, complied as section data (Mitchell et. al., unpublished data). This will be used to:</p>
 <ol style="list-style-type: decimal">
-<li>The first most important thing</li>
-<li>The second most important thing</li>
-<li>The third most important thing</li>
+<li>Examine geographic distribution of graptolites with synonymies compared to graptolites without synonymies</li>
+<li>Examine temporal distribution of both groupings of graptolites</li>
+<li>Determine relationship of number of synonymies related to naming author.</li>
 </ol>
-<p>See <a href="http://rmarkdown.rstudio.com/" class="uri">http://rmarkdown.rstudio.com/</a> for all the amazing things you can do.</p>
-<p>Here’s my first code chunk.</p>
-<pre class="r"><code>1+2</code></pre>
-<pre><code>## [1] 3</code></pre>
-<p>Load any required packages in a code chunk (you may need to install some packages):</p>
+<p>Intially, the required packages will need to be loaded (you may need to install some packages):</p>
 <pre class="r"><code>library(dplyr)
-library(ggplot2)
+library(tidyr)
+library(sp)
+library(rgeos)
+library(maptools)
+library(ggplot2)</code></pre>
+<p>The data is contained in two comma separated files (CSV) that will need to be loaded into Rstudio from the working directory. As such, it is important to make sure that the working directory contains both the Taxonomic Dictionary and the section data.</p>
+<pre class="r"><code>#Load Taxonomic Dictionary
+
+myDict=read.csv(&quot;data/Taxonomic dictionary Oct3&#39;17_mod.csv&quot;,header=T,sep=&quot;,&quot;)
+
+#Load section data
+
+mySect=read.csv(&quot;data/sections_table format.csv&quot;, header=T, sep =&quot;,&quot;)</code></pre>
+<p>(There seems to be an error in loading the CSV files. It works fine from a script in Rstudio but will not work from the RMD file even if the working directory is properly set. Unsure how to rectify this problem.)</p>
+<p>After loading both CSV files, the section data and the Taxonomic Dictionary must be joined so that all the geographic locations are paired with the correct taxonomic information including the presence of senior synonyms. This data is then filtered by the senior synonym column in order to generate a list that contains only graptolite locations with named senior synonyms.</p>
+<pre class="r"><code>#Join the sections data and the graptolite dictionary
+Grap_locate=full_join(mySect,myDict,by=&quot;GRCode&quot;)</code></pre>
+<pre><code>## Warning: Column `GRCode` joining factors with different levels, coercing to
+## character vector</code></pre>
+<pre class="r"><code>#Generate synonoym list
+synGrap_locate=filter(Grap_locate, senior.synonym!=&quot;*&quot; &amp; senior.synonym!=99999)</code></pre>
+<p>These two data sets are then visually compared by overlapping the synonyms list over all of the graptolite locations on a world map.</p>
+<pre class="r"><code>#Load a world map
+library(ggmap)
+library(maptools)
 library(maps)
-library(spocc)
-knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling</code></pre>
-<p>We are going to use the <code>occ()</code> function to download <em>occurrence</em> records for the American robin (<em>Turdus migratorius</em>) from the <a href="gbif.org">Global Biodiversity Information Facility</a>.</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Turdus-migratorius-002.jpg" alt="alt text" width="200"> <small><small><small>Licensed under CC BY-SA 3.0 via <a href="https://commons.wikimedia.org/wiki/File:Turdus-migratorius-002.jpg#/media/File:Turdus-migratorius-002.jpg">Wikimedia Commons</a></small></small></small></p>
-<pre class="r"><code>## define which species to query
-sp=&#39;Turdus migratorius&#39;
 
-## run the query and convert to data.frame()
-d = occ(query=sp, from=&#39;ebird&#39;,limit = 100) %&gt;% occ2df()</code></pre>
-<p>This can take a few seconds.</p>
-<pre class="r"><code># Load coastline
-map=map_data(&quot;world&quot;)
+worldmap=borders(&quot;world&quot;,colour=&quot;gray50&quot;,fill=&quot;white&quot;)
+#plot points on world map
+mapWorld=ggplot()+worldmap
 
-ggplot(d,aes(x=longitude,y=latitude))+
-  geom_polygon(aes(x=long,y=lat,group=group),data=map)+
-  geom_point(col=&quot;red&quot;)+
+mapWorld+
+  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col=&quot;red&quot;,show.legend=NA)+
+  geom_point(data=synGrap_locate,aes(x=Longitude,y=Latitude),col=&quot;blue&quot;,show.legend=NA)+
   coord_equal()</code></pre>
+<pre><code>## Warning: Removed 2946 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1104 rows containing missing values (geom_point).</code></pre>
 <div class="figure">
-<img src="index_files/figure-html/unnamed-chunk-4-1.png" alt="Map illustrating the known occurrence locations" width="576" />
+<img src="index_files/figure-html/unnamed-chunk-4-1.png" alt="Map illustrating graptolite locations" width="576" />
 <p class="caption">
-Map illustrating the known occurrence locations
+Map illustrating graptolite locations
 </p>
 </div>
+<pre class="r"><code>#Warning will appear: (this is normal and reflects data without coordinates)
+
+  ##Warning messages:
+  ##1: Removed 3404 rows containing missing values
+  ##(geom_point). 
+  ##2: Removed 1333 rows containing missing values
+  ##(geom_point). 
+
+#Need to figure out how to incorporate the legend so that blue=synonymies &amp; red=no synonymies</code></pre>
+<p>Areas that contain only red points indicate locations were there are no graptolite synonymies.</p>
+<p>Further coding will result in an animation of the above plotted points in relation to the year that the species was named. The graptolite synonymies will also be grouped by author and summed then compared to random grouping by author to determine if there is a significant correlation.</p>
 </div>
 <div id="results" class="section level1">
 <h1>Results</h1>
@@ -364,7 +382,7 @@ Map illustrating the known occurrence locations
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
-<p>Finnegan, Seth</p>
+<p>Mitchell, Charles et. al., Graptolite Sections Data, unpublished data. Mitchell, Charles et. al. Graptolite Taxonomic Dictionary, unpublished data.</p>
 </div>
 
 <!-- give the footer some space -->
