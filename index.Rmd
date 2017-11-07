@@ -52,7 +52,6 @@ synGrap_locate=filter(Grap_locate, senior.synonym!="*" & senior.synonym!=99999)
 These two data sets are then visually compared by overlapping the synonyms list over all of the graptolite locations on a world map.
 ```{r, fig.width=6, fig.height=3, fig.cap="Map illustrating graptolite locations"}
 #Load a world map
-install.packages("ggmap")
 library(ggmap)
 library(maptools)
 library(maps)
