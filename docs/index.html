@@ -346,6 +346,7 @@ library(maptools)
 library(maps)
 
 worldmap=borders(&quot;world&quot;,colour=&quot;gray50&quot;,fill=&quot;white&quot;)
+
 #plot points on world map
 mapWorld=ggplot()+worldmap
 
@@ -361,15 +362,6 @@ mapWorld+
 Map illustrating graptolite locations
 </p>
 </div>
-<pre class="r"><code>#Warning will appear: (this is normal and reflects data without coordinates)
-
-  ##Warning messages:
-  ##1: Removed 3404 rows containing missing values
-  ##(geom_point). 
-  ##2: Removed 1333 rows containing missing values
-  ##(geom_point). 
-
-#Need to figure out how to incorporate the legend so that blue=synonymies &amp; red=no synonymies</code></pre>
 <p>Areas that contain only red points indicate locations were there are no graptolite synonymies.</p>
 <p>Further coding will result in an animation of the above plotted points in relation to the year that the species was named. The graptolite synonymies will also be grouped by author and summed then compared to random grouping by author to determine if there is a significant correlation.</p>
 </div>

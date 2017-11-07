@@ -80,5 +80,5 @@ Show tables, plots, etc. and describe them.
 What have you learned?  Are there any broader implications?
 
 # References
-Mitchell, Charles et. al., Graptolite Sections Data, unpublished data.
+Mitchell, Charles et. al., Graptolite Sections Data, unpublished data.  
 Mitchell, Charles et. al. Graptolite Taxonomic Dictionary, unpublished data.
