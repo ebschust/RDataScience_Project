@@ -27,6 +27,17 @@ library(sp)
 library(rgeos)
 library(maptools)
 library(ggplot2)
+library(ggmap)
+library(maptools)
+library(maps)
+library(leaflet)
+library(htmlwidgets)
+library(widgetframe)
+library(DT)
+library(devtools)
+library(RCurl)
+library(httr)
+library(gganimate)
 ```
 
 The data is contained in two comma separated files (CSV) that will need to be loaded into Rstudio from the working directory. As such, it is important to make sure that the working directory contains both the Taxonomic Dictionary and the section data.
@@ -54,10 +65,6 @@ synGrap_locate=filter(Grap_locate, senior.synonym!="*" & senior.synonym!=99999)
 These two data sets are then visually compared by overlapping the synonyms list over all of the graptolite locations on a world map.
 ```{r, fig.width=6, fig.height=3, fig.cap="Map illustrating graptolite locations"}
 #Load a world map
-library(ggmap)
-library(maptools)
-library(maps)
-
 worldmap=borders("world",colour="gray50",fill="white")
 
 #plot points on world map
