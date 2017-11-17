@@ -15,8 +15,9 @@ This research will attempt to examine any correlation by first mapping the prese
 The presence of graptolite synonymies may be correlated to a number of factors including time, cultural or tectonic location, and author. The project will combine data on synonymies, contained within the Taxonomic Dictionary (Mitchell et. al., unpublished data), with graptolite locatlity information, complied as section data (Mitchell et. al., unpublished data). This will be used to:
 
 1. Examine geographic distribution of graptolites with synonymies compared to graptolites without synonymies
-2. Examine temporal distribution of both groupings of graptolites
-3. Determine relationship of number of synonymies related to naming author.
+2. Examine temporal distribution of graptolite synonymies
+3. Determine the number of synonymies based on naming author
+4. Determine number of synonymies per author per year.
 
 Intially, the required packages will need to be loaded (you may need to install some packages):
 
@@ -40,7 +41,7 @@ library(httr)
 library(gganimate)
 ```
 
-The data is contained in two comma separated files (CSV) that will need to be loaded into Rstudio from the working directory. As such, it is important to make sure that the working directory contains both the Taxonomic Dictionary and the section data.
+The data is contained in two comma separated files (CSV), the Taxonomic Dictionary and the section data.
 ```{r}
 #Load Taxonomic Dictionary
 
@@ -50,8 +51,8 @@ myDict=read.csv("data/Taxonomic dictionary Oct3'17_mod.csv",header=T,sep=",")
 
 mySect=read.csv("data/sections_table format.csv", header=T, sep =",")
 ```
-(There seems to be an error in loading the CSV files. It works fine from a script in Rstudio but will not work from the RMD file even if the working directory is properly set. Unsure how to rectify this problem.)
 
+## Geographic Methodology
 
 After loading both CSV files, the section data and the Taxonomic Dictionary must be joined so that all the geographic locations are paired with the correct taxonomic information including the presence of senior synonyms. This data is then filtered by the senior synonym column in order to generate a list that contains only graptolite locations with named senior synonyms.
 ```{r}
@@ -63,23 +64,18 @@ synGrap_locate=filter(Grap_locate, senior.synonym!="*" & senior.synonym!=99999)
 ```
 
 These two data sets are then visually compared by overlapping the synonyms list over all of the graptolite locations on a world map.
-```{r, fig.width=6, fig.height=3, fig.cap="Map illustrating graptolite locations"}
-#Load a world map
-worldmap=borders("world",colour="gray50",fill="white")
-
-#plot points on world map
-mapWorld=ggplot()+worldmap
-
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_locate,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
+```{r, fig.width=6, fig.height=3, fig.cap="Map illustrating graptolite locations",eval=FALSE}
+Grap_map_inter=leaflet() %>% 
+  addTiles() %>% 
+  addCircles(data=Grap_locate,group="All Graptolite Locations",color="red") %>% 
+  addCircles(data=synGrap_locate,group="Graptolite Synonym Locations",color="blue") %>% 
+  addLayersControl(overlayGroups=c("All Graptolite Locations","Graptolite Synonym Locations"), options=layersControlOptions(collapsed=F))
+frameWidget(Grap_map_inter,height = 500)
 ```
-Areas that contain only red points indicate locations were there are no graptolite synonymies.
 
-The synonymies were then filtered by the decade in which they were named, beginning in 1828 with the first named species.
+The synonymies are then filtered by the decade in which they were named, beginning in 1828 with the first named species.
 ```{r}
-#plot by "decade"
+# Filter by "decade"
 synGrap_year=filter(synGrap_locate, date!="*" & date!="Chen et al 2011" & date!="1997a")
 
 synGrap_18_2837=filter(synGrap_year, date==1828 | date==1829 | date==1830 | date==1831 | date==1832 | date==1833 | date==1834 | date==1835 | date==1836 | date==1837)
@@ -102,220 +98,215 @@ synGrap_19_8897=filter(synGrap_year, date==1988 | date==1989 | date==1990 | date
 synGrap_1920_9807=filter(synGrap_year, date==1998 | date==1999 | date==2000 | date==2001 | date==2002 | date==2003 | date==2004 | date==2005 | date==2006 | date==2007)
 synGrap_20_0817=filter(synGrap_year, date==2008 | date==2009 | date==2010 | date==2011 | date==2012 | date==2013 | date==2014 | date==2015 | date==2016 | date==2017)
 ```
-These subdivisions are then mapped on a world map to indicate if there is a geographic relation with the above decadal time breaks.
 
-```{r}
-#1828-1837
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_2837,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1838-1847
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_3847,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1848-1857
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_4857,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1858-1867
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_5867,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1868-1877
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_6877,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1878-1887
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_7887,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1888-1897
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_8897,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1898-1907
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_1819_9807,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1908-1917
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_0817,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1918-1927
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_1827,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1928-1937
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_2837,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1938-1947
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_3847,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1948-1957
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_4857,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1958-1967
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_5867,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1968-1977
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_6877,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1978-1987
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_7887,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1988-1997
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_8897,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1998-2007
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_1920_9807,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#2008-2017 (2011)
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_20_0817,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
+These subdivisions are then mapped on a world map as individual layers to indicate if there is a geographic relation with the above decadal time breaks.
+```{r, fig.width=6, fig.height=3, fig.cap="Map of graptolite locations grouped by decade", eval=FALSE}
+Grap_decade_inter=leaflet() %>% 
+  addTiles() %>% 
+  addCircles(data=Grap_locate,group="All Graptolite Locations",color="red") %>% 
+  addCircles(data=synGrap_18_2837,group="Graptolite Synonymies 1828-1837",color="blue") %>%
+  addCircles(data=synGrap_18_3847,group="Graptolite Synonymies 1838-1847",color="blue") %>%
+  addCircles(data=synGrap_18_4857,group="Graptolite Synonymies 1848-1857",color="blue") %>%
+  addCircles(data=synGrap_18_5867,group="Graptolite Synonymies 1858-1867",color="blue") %>%
+  addCircles(data=synGrap_18_6877,group="Graptolite Synonymies 1868-1877",color="blue") %>%
+  addCircles(data=synGrap_18_7887,group="Graptolite Synonymies 1878-1887",color="blue") %>%
+  addCircles(data=synGrap_18_8897,group="Graptolite Synonymies 1888-1897",color="blue") %>%
+  addCircles(data=synGrap_1819_9807,group="Graptolite Synonymies 1898-1907",color="blue") %>%
+  addCircles(data=synGrap_19_0817,group="Graptolite Synonymies 1908-1917",color="blue") %>%
+  addCircles(data=synGrap_19_1827,group="Graptolite Synonymies 1918-1927",color="blue") %>%
+  addCircles(data=synGrap_19_2837,group="Graptolite Synonymies 1928-1937",color="blue") %>%
+  addCircles(data=synGrap_19_3847,group="Graptolite Synonymies 1938-1947",color="blue") %>%
+  addCircles(data=synGrap_19_4857,group="Graptolite Synonymies 1948-1957",color="blue") %>%
+  addCircles(data=synGrap_19_5867,group="Graptolite Synonymies 1958-1967",color="blue") %>%
+  addCircles(data=synGrap_19_6877,group="Graptolite Synonymies 1968-1977",color="blue") %>%
+  addCircles(data=synGrap_19_7887,group="Graptolite Synonymies 1978-1987",color="blue") %>%
+  addCircles(data=synGrap_19_8897,group="Graptolite Synonymies 1988-1997",color="blue") %>%
+  addCircles(data=synGrap_1920_9807,group="Graptolite Synonymies 1998-2007",color="blue") %>%
+  addCircles(data=synGrap_20_0817,group="Graptolite Synonymies 2008-2011",color="blue") %>%
+  addLayersControl(overlayGroups=c("All Graptolite Locations","Graptolite Synonymies 1828-1837","Graptolite Synonymies 1838-1847",
+                                   "Graptolite Synonymies 1848-1857","Graptolite Synonymies 1858-1867","Graptolite Synonymies 1868-1877",
+                                   "Graptolite Synonymies 1878-1887","Graptolite Synonymies 1888-1897","Graptolite Synonymies 1898-1907",
+                                   "Graptolite Synonymies 1908-1917","Graptolite Synonymies 1918-1927","Graptolite Synonymies 1928-1937",
+                                   "Graptolite Synonymies 1938-1947","Graptolite Synonymies 1948-1957","Graptolite Synonymies 1958-1967",
+                                   "Graptolite Synonymies 1968-1977","Graptolite Synonymies 1978-1987","Graptolite Synonymies 1988-1997",
+                                   "Graptolite Synonymies 1998-2007","Graptolite Synonymies 2008-2011"),
+                   options=layersControlOptions(collapsed=F))
+frameWidget(Grap_decade_inter,height = 500)
 ```
 
+However, there is more variation in the number and locations of synonymies by year that is being time averaged on the decade scale. This differentiation is displayed using an animation.
+```{r, eval=FALSE}
+worldmap=borders("world",colour="gray50",fill="white")
+mapWorld=ggplot()+worldmap
 
+Grap_map=
+  mapWorld+
+  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red")+
+  geom_point(data=synGrap_locate,aes(x=Longitude,y=Latitude,frame=date),col="blue")+
+  coord_equal()
+
+gganimate(Grap_map,interval=3.5)
+#interval is in seconds
+```
+
+## Temporal and Authorial Analysis Methodology
+
+In order to observe any correlation between the number of graptolite synonymies and temporal factors or the naming author, the data is first filtered and then the number of instances per year or author are counted. These are displayed in interactive tables.
+```{r,eval=FALSE}
+#number of synonymies by year
+synGrap_yearcount=
+  synGrap_year %>% 
+  group_by(date) %>% 
+  summarise(n=n())
+##2191 in 145 years
+datatable(synGrap_yearcount,options = list(pageLength=10))
+
+#number of synonymies by author
+synGrap_authorcount=
+  synGrap_locate %>% 
+  group_by(taxon_author) %>% 
+  summarise(n=n())
+##2677 for 424 authors
+datatable(synGrap_authorcount,options=list(pageLength=10))
+```
+
+Observation of the number of synonymies per author led to the question if there is a correlation of the number of synonymies per author per year.
+```{r,eval=FALSE}
+#group by author, year
+synGrap_authoryear=
+  synGrap_locate %>% 
+  group_by(taxon_author,date) %>% 
+  summarise(n=n())
+##2677 for 734 author/year combos
+datatable(synGrap_authoryear,options=list(pageLength=10))
+```
+
+These three analyses are statistically tested for significance by applying two chi-squared tests. The first tests the null hypothesis that the probabilities of all the counts per category are equal. The second tests the null hypothesis that the observed and expected numbers are equal (Pearson's chi-squared test).
+```{r, eval=FALSE}
+# Per year
+chisq.test(synGrap_yearcount$n)
+
+synGrap_year_expct=mutate(synGrap_yearcount,expected=rep(15,length(synGrap_yearcount$n)))
+chisq.test(rbind(synGrap_year_expct$n,synGrap_year_expct$expected))
+
+# Per author
+chisq.test(synGrap_authorcount$n)
+
+synGrap_author_expect=mutate(synGrap_authorcount,expected=rep(6,length(synGrap_authorcount$n)))
+chisq.test(rbind(synGrap_author_expect$n,synGrap_author_expect$expected))
+
+# Per author per year
+chisq.test(synGrap_authoryear$n)
+
+synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(4,length(synGrap_authoryear$n)))
+chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
+```
 
 # Results
 
 ```{r, fig.cap="Map illustrating locations of graptolites and graptolite synonymies", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
 
-worldmap=borders("world",colour="gray50",fill="white")
-
-#plot points on world map
-mapWorld=ggplot()+worldmap
-
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_locate,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
+Grap_map_inter=leaflet() %>% 
+  addTiles() %>% 
+  addCircles(data=Grap_locate,group="All Graptolite Locations",color="red") %>% 
+  addCircles(data=synGrap_locate,group="Graptolite Synonym Locations",color="blue") %>% 
+  addLayersControl(overlayGroups=c("All Graptolite Locations","Graptolite Synonym Locations"), options=layersControlOptions(collapsed=F))
+frameWidget(Grap_map_inter,height = 500)
 ```
 
-```{r, fig.cap="Maps illustrating locations of graptolites and graptolite synonymies grouped by the decade the synonym was named", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
+```{r, fig.cap="Map of graptolite locations grouped by decade", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
 
-#1828-1837
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_2837,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
+Grap_decade_inter=leaflet() %>% 
+  addTiles() %>% 
+  addCircles(data=Grap_locate,group="All Graptolite Locations",color="red") %>% 
+  addCircles(data=synGrap_18_2837,group="Graptolite Synonymies 1828-1837",color="blue") %>%
+  addCircles(data=synGrap_18_3847,group="Graptolite Synonymies 1838-1847",color="blue") %>%
+  addCircles(data=synGrap_18_4857,group="Graptolite Synonymies 1848-1857",color="blue") %>%
+  addCircles(data=synGrap_18_5867,group="Graptolite Synonymies 1858-1867",color="blue") %>%
+  addCircles(data=synGrap_18_6877,group="Graptolite Synonymies 1868-1877",color="blue") %>%
+  addCircles(data=synGrap_18_7887,group="Graptolite Synonymies 1878-1887",color="blue") %>%
+  addCircles(data=synGrap_18_8897,group="Graptolite Synonymies 1888-1897",color="blue") %>%
+  addCircles(data=synGrap_1819_9807,group="Graptolite Synonymies 1898-1907",color="blue") %>%
+  addCircles(data=synGrap_19_0817,group="Graptolite Synonymies 1908-1917",color="blue") %>%
+  addCircles(data=synGrap_19_1827,group="Graptolite Synonymies 1918-1927",color="blue") %>%
+  addCircles(data=synGrap_19_2837,group="Graptolite Synonymies 1928-1937",color="blue") %>%
+  addCircles(data=synGrap_19_3847,group="Graptolite Synonymies 1938-1947",color="blue") %>%
+  addCircles(data=synGrap_19_4857,group="Graptolite Synonymies 1948-1957",color="blue") %>%
+  addCircles(data=synGrap_19_5867,group="Graptolite Synonymies 1958-1967",color="blue") %>%
+  addCircles(data=synGrap_19_6877,group="Graptolite Synonymies 1968-1977",color="blue") %>%
+  addCircles(data=synGrap_19_7887,group="Graptolite Synonymies 1978-1987",color="blue") %>%
+  addCircles(data=synGrap_19_8897,group="Graptolite Synonymies 1988-1997",color="blue") %>%
+  addCircles(data=synGrap_1920_9807,group="Graptolite Synonymies 1998-2007",color="blue") %>%
+  addCircles(data=synGrap_20_0817,group="Graptolite Synonymies 2008-2011",color="blue") %>%
+  addLayersControl(overlayGroups=c("All Graptolite Locations","Graptolite Synonymies 1828-1837","Graptolite Synonymies 1838-1847",
+                                   "Graptolite Synonymies 1848-1857","Graptolite Synonymies 1858-1867","Graptolite Synonymies 1868-1877",
+                                   "Graptolite Synonymies 1878-1887","Graptolite Synonymies 1888-1897","Graptolite Synonymies 1898-1907",
+                                   "Graptolite Synonymies 1908-1917","Graptolite Synonymies 1918-1927","Graptolite Synonymies 1928-1937",
+                                   "Graptolite Synonymies 1938-1947","Graptolite Synonymies 1948-1957","Graptolite Synonymies 1958-1967",
+                                   "Graptolite Synonymies 1968-1977","Graptolite Synonymies 1978-1987","Graptolite Synonymies 1988-1997",
+                                   "Graptolite Synonymies 1998-2007","Graptolite Synonymies 2008-2011"),
+                   options=layersControlOptions(collapsed=F))
+frameWidget(Grap_decade_inter,height = 500)
+```
+
+```{r, fig.cap="Animation of graptolite synonymies per year", fig.height=3, fig.width=6, message=FALSE, warning=FALSE, echo=FALSE}
+worldmap=borders("world",colour="gray50",fill="white")
+mapWorld=ggplot()+worldmap
+
+Grap_map=
+  mapWorld+
+  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red")+
+  geom_point(data=synGrap_locate,aes(x=Longitude,y=Latitude,frame=date),col="blue")+
   coord_equal()
-#1838-1847
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_3847,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1848-1857
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_4857,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1858-1867
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_5867,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1868-1877
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_6877,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1878-1887
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_7887,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1888-1897
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_18_8897,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1898-1907
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_1819_9807,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1908-1917
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_0817,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1918-1927
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_1827,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1928-1937
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_2837,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1938-1947
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_3847,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1948-1957
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_4857,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1958-1967
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_5867,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1968-1977
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_6877,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1978-1987
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_7887,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1988-1997
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_19_8897,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#1998-2007
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_1920_9807,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
-#2008-2017 (2011)
-mapWorld+
-  geom_point(data=Grap_locate,aes(x=Longitude,y=Latitude),col="red",show.legend=NA)+
-  geom_point(data=synGrap_20_0817,aes(x=Longitude,y=Latitude),col="blue",show.legend=NA)+
-  coord_equal()
+
+gganimate(Grap_map,interval=3.5)
+#interval is in seconds
+```
+
+```{r,echo=FALSE}
+#number of synonymies by year
+synGrap_yearcount=
+  synGrap_year %>% 
+  group_by(date) %>% 
+  summarise(n=n())
+##2191 in 145 years
+datatable(synGrap_yearcount,options = list(pageLength=10))
+
+#number of synonymies by author
+synGrap_authorcount=
+  synGrap_locate %>% 
+  group_by(taxon_author) %>% 
+  summarise(n=n())
+##2677 for 424 authors
+datatable(synGrap_authorcount,options=list(pageLength=10))
+
+#group by author, year
+synGrap_authoryear=
+  synGrap_locate %>% 
+  group_by(taxon_author,date) %>% 
+  summarise(n=n())
+##2677 for 734 author/year combos
+datatable(synGrap_authoryear,options=list(pageLength=10))
+```
+
+```{r,echo=FALSE}
+# Per year
+chisq.test(synGrap_yearcount$n)
+
+synGrap_year_expct=mutate(synGrap_yearcount,expected=rep(15,length(synGrap_yearcount$n)))
+chisq.test(rbind(synGrap_year_expct$n,synGrap_year_expct$expected))
+
+# Per author
+chisq.test(synGrap_authorcount$n)
+
+synGrap_author_expect=mutate(synGrap_authorcount,expected=rep(6,length(synGrap_authorcount$n)))
+chisq.test(rbind(synGrap_author_expect$n,synGrap_author_expect$expected))
+
+# Per author per year
+chisq.test(synGrap_authoryear$n)
+
+#synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(4,length(synGrap_authoryear$n)))
+#chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
 
 # Conclusions
