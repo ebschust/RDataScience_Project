@@ -151,22 +151,25 @@ gganimate(Grap_map,interval=3.5)
 
 ## Temporal and Authorial Analysis Methodology
 
-In order to observe any correlation between the number of graptolite synonymies and temporal factors or the naming author, the data is first filtered and then the number of instances per year or author are counted. These are displayed in interactive tables.
+In order to observe any correlation between the number of graptolite synonymies and temporal factors or the naming author, the data from the Taxonomic Dictionary is first filtered and then the number of instances per year or author are counted. These are displayed in interactive tables.
 ```{r,eval=FALSE}
+synGrap=filter(myDict, senior.synonym!="*" & senior.synonym!=99999 & senior.synonym!=9999)
+
 #number of synonymies by year
 synGrap_yearcount=
-  synGrap_year %>% 
+  synGrap %>% 
+  filter(date!="*" & date!="Chen et al 2011" & date!="1997a") %>% 
   group_by(date) %>% 
   summarise(n=n())
-##2191 in 145 years
+##1226 in 145 years
 datatable(synGrap_yearcount,options = list(pageLength=10))
 
 #number of synonymies by author
 synGrap_authorcount=
-  synGrap_locate %>% 
+  synGrap %>% 
   group_by(taxon_author) %>% 
   summarise(n=n())
-##2677 for 424 authors
+##1592 for 423 authors
 datatable(synGrap_authorcount,options=list(pageLength=10))
 ```
 
@@ -174,31 +177,30 @@ Observation of the number of synonymies per author led to the question if there 
 ```{r,eval=FALSE}
 #group by author, year
 synGrap_authoryear=
-  synGrap_locate %>% 
+  synGrap %>% 
   group_by(taxon_author,date) %>% 
   summarise(n=n())
-##2677 for 734 author/year combos
+#1592 for 733 author/year combos
 datatable(synGrap_authoryear,options=list(pageLength=10))
 ```
 
 These three analyses are statistically tested for significance by applying two chi-squared tests. The first tests the null hypothesis that the probabilities of all the counts per category are equal. The second tests the null hypothesis that the observed and expected numbers are equal (Pearson's chi-squared test).
 ```{r, eval=FALSE}
-# Per year
 chisq.test(synGrap_yearcount$n)
 
-synGrap_year_expct=mutate(synGrap_yearcount,expected=rep(15,length(synGrap_yearcount$n)))
-chisq.test(rbind(synGrap_year_expct$n,synGrap_year_expct$expected))
+synGrap_year_expct=mutate(synGrap_yearcount,expected=rep(9,length(synGrap_yearcount$n)))
+chisq.test(rbind(synGrap_year_expct$n,synGrap_year_expct$expected))  
 
 # Per author
 chisq.test(synGrap_authorcount$n)
 
-synGrap_author_expect=mutate(synGrap_authorcount,expected=rep(6,length(synGrap_authorcount$n)))
+synGrap_author_expect=mutate(synGrap_authorcount,expected=rep(4,length(synGrap_authorcount$n)))
 chisq.test(rbind(synGrap_author_expect$n,synGrap_author_expect$expected))
 
 # Per author per year
 chisq.test(synGrap_authoryear$n)
 
-synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(4,length(synGrap_authoryear$n)))
+synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGrap_authoryear$n)))
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
 
@@ -266,50 +268,50 @@ gganimate(Grap_map,interval=3.5)
 ```{r,echo=FALSE, tab.cap="Table 1. Number of graptolites with a synonym per year."}
 #number of synonymies by year
 synGrap_yearcount=
-  synGrap_year %>% 
+  synGrap %>% 
+  filter(date!="*" & date!="Chen et al 2011" & date!="1997a") %>% 
   group_by(date) %>% 
   summarise(n=n())
-##2191 in 145 years
+##1226 in 145 years
 datatable(synGrap_yearcount,options = list(pageLength=10))
 ```
 
 ```{r,echo=FALSE, tab.cap="Table 2. Number of graptolites with a synonym per author."}
 #number of synonymies by author
 synGrap_authorcount=
-  synGrap_locate %>% 
+  synGrap %>% 
   group_by(taxon_author) %>% 
   summarise(n=n())
-##2677 for 424 authors
+##1592 for 423 authors
 datatable(synGrap_authorcount,options=list(pageLength=10))
 ```
 
 ```{r,echo=FALSE, tab.cap="Table 3. Number of graptolites with synonyms per author per year."}
 #group by author, year
 synGrap_authoryear=
-  synGrap_locate %>% 
+  synGrap %>% 
   group_by(taxon_author,date) %>% 
   summarise(n=n())
-##2677 for 734 author/year combos
+#1592 for 733 author/year combos
 datatable(synGrap_authoryear,options=list(pageLength=10))
 ```
 
 ```{r,echo=FALSE}
-# Per year
 chisq.test(synGrap_yearcount$n)
 
-synGrap_year_expct=mutate(synGrap_yearcount,expected=rep(15,length(synGrap_yearcount$n)))
-chisq.test(rbind(synGrap_year_expct$n,synGrap_year_expct$expected))
+synGrap_year_expct=mutate(synGrap_yearcount,expected=rep(9,length(synGrap_yearcount$n)))
+chisq.test(rbind(synGrap_year_expct$n,synGrap_year_expct$expected))  
 
 # Per author
 chisq.test(synGrap_authorcount$n)
 
-synGrap_author_expect=mutate(synGrap_authorcount,expected=rep(6,length(synGrap_authorcount$n)))
+synGrap_author_expect=mutate(synGrap_authorcount,expected=rep(4,length(synGrap_authorcount$n)))
 chisq.test(rbind(synGrap_author_expect$n,synGrap_author_expect$expected))
 
 # Per author per year
 chisq.test(synGrap_authoryear$n)
 
-synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(4,length(synGrap_authoryear[,3])))
+synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGrap_authoryear$n)))
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
 
