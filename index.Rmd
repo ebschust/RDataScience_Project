@@ -204,7 +204,7 @@ chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected)
 
 # Results
 
-```{r, fig.cap="Map illustrating locations of graptolites and graptolite synonymies", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
+```{r, fig.cap="Figure 1. Map illustrating locations of graptolites and graptolite synonymies.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
 
 Grap_map_inter=leaflet() %>% 
   addTiles() %>% 
@@ -214,7 +214,7 @@ Grap_map_inter=leaflet() %>%
 frameWidget(Grap_map_inter,height = 500)
 ```
 
-```{r, fig.cap="Map of graptolite locations grouped by decade", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
+```{r, fig.cap="Figure 2. Map of graptolite locations grouped by decade.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
 
 Grap_decade_inter=leaflet() %>% 
   addTiles() %>% 
@@ -249,7 +249,7 @@ Grap_decade_inter=leaflet() %>%
 frameWidget(Grap_decade_inter,height = 500)
 ```
 
-```{r, fig.cap="Animation of graptolite synonymies per year", fig.height=3, fig.width=6, message=FALSE, warning=FALSE, echo=FALSE}
+```{r, fig.cap="Figure 3. Animation of graptolite synonymies per year.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE, echo=FALSE}
 worldmap=borders("world",colour="gray50",fill="white")
 mapWorld=ggplot()+worldmap
 
@@ -263,7 +263,7 @@ gganimate(Grap_map,interval=3.5)
 #interval is in seconds
 ```
 
-```{r,echo=FALSE}
+```{r,echo=FALSE, tab.cap="Table 1. Number of graptolites with a synonym per year."}
 #number of synonymies by year
 synGrap_yearcount=
   synGrap_year %>% 
@@ -271,7 +271,9 @@ synGrap_yearcount=
   summarise(n=n())
 ##2191 in 145 years
 datatable(synGrap_yearcount,options = list(pageLength=10))
+```
 
+```{r,echo=FALSE, tab.cap="Table 2. Number of graptolites with a synonym per author."}
 #number of synonymies by author
 synGrap_authorcount=
   synGrap_locate %>% 
@@ -279,7 +281,9 @@ synGrap_authorcount=
   summarise(n=n())
 ##2677 for 424 authors
 datatable(synGrap_authorcount,options=list(pageLength=10))
+```
 
+```{r,echo=FALSE, tab.cap="Table 3. Number of graptolites with synonyms per author per year."}
 #group by author, year
 synGrap_authoryear=
   synGrap_locate %>% 
@@ -305,8 +309,8 @@ chisq.test(rbind(synGrap_author_expect$n,synGrap_author_expect$expected))
 # Per author per year
 chisq.test(synGrap_authoryear$n)
 
-#synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(4,length(synGrap_authoryear$n)))
-#chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
+synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(4,length(synGrap_authoryear[,3])))
+chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
 
 # Conclusions
