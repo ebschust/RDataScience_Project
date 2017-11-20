@@ -184,21 +184,21 @@ synGrap_authoryear=
 datatable(synGrap_authoryear,options=list(pageLength=10))
 ```
 
-These three analyses are statistically tested for significance by applying two chi-squared tests. The first tests the null hypothesis that the probabilities of all the counts per category are equal. The second tests the null hypothesis that the observed and expected numbers are equal (Pearson's chi-squared test).
+These three analyses are statistically tested for significance by applying two chi-squared tests. The first tests the null hypothesis that there is a random distribution of graptolites with synonymies within the categories. This is accomplished with a Monte Carlo simulation utilizing 1000 replicates. The second tests the null hypothesis that there is a uniform distribution of graptolites with synonymies (observed=expected).
 ```{r, eval=FALSE}
-chisq.test(synGrap_yearcount$n)
+chisq.test(synGrap_yearcount$n,,simulate.p.value = T,B=1000)
 
 synGrap_year_expct=mutate(synGrap_yearcount,expected=rep(9,length(synGrap_yearcount$n)))
 chisq.test(rbind(synGrap_year_expct$n,synGrap_year_expct$expected))  
 
 # Per author
-chisq.test(synGrap_authorcount$n)
+chisq.test(synGrap_authorcount$n,,simulate.p.value = T,B=1000)
 
 synGrap_author_expect=mutate(synGrap_authorcount,expected=rep(4,length(synGrap_authorcount$n)))
 chisq.test(rbind(synGrap_author_expect$n,synGrap_author_expect$expected))
 
 # Per author per year
-chisq.test(synGrap_authoryear$n)
+chisq.test(synGrap_authoryear$n,,simulate.p.value = T,B=1000)
 
 synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGrap_authoryear$n)))
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
@@ -297,19 +297,19 @@ datatable(synGrap_authoryear,options=list(pageLength=10))
 ```
 
 ```{r,echo=FALSE}
-chisq.test(synGrap_yearcount$n)
+chisq.test(synGrap_yearcount$n,simulate.p.value = T,B=1000)
 
 synGrap_year_expct=mutate(synGrap_yearcount,expected=rep(9,length(synGrap_yearcount$n)))
 chisq.test(rbind(synGrap_year_expct$n,synGrap_year_expct$expected))  
 
 # Per author
-chisq.test(synGrap_authorcount$n)
+chisq.test(synGrap_authorcount$n,simulate.p.value = T,B=1000)
 
 synGrap_author_expect=mutate(synGrap_authorcount,expected=rep(4,length(synGrap_authorcount$n)))
 chisq.test(rbind(synGrap_author_expect$n,synGrap_author_expect$expected))
 
 # Per author per year
-chisq.test(synGrap_authoryear$n)
+chisq.test(synGrap_authoryear$n,simulate.p.value = T,B=1000)
 
 synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGrap_authoryear$n)))
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
