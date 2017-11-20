@@ -313,7 +313,7 @@ chisq.test(rbind(synGrap_author_expect$n,synGrap_author_expect$expected))
 # Per author per year
 chisq.test(synGrap_authoryear$n,simulate.p.value = T,B=1000)
 
-synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGrap_authoryear$n)))
+synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGrap_authoryear[,3])))
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
 
