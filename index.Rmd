@@ -251,7 +251,7 @@ Grap_decade_inter=leaflet() %>%
 frameWidget(Grap_decade_inter,height = 500)
 ```
 
-```{r, fig.cap="Figure 3. Animation of graptolite synonymies per year.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE, echo=FALSE,fig.show="animate"}
+```{r, fig.cap="Figure 3. Animation of graptolite synonymies per year.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE, echo=FALSE,fig.show="Grap_map_animate"}
 worldmap=borders("world",colour="gray50",fill="white")
 mapWorld=ggplot()+worldmap
 
@@ -261,7 +261,7 @@ Grap_map=
   geom_point(data=synGrap_locate,aes(x=Longitude,y=Latitude,frame=date),col="blue")+
   coord_equal()
 
-gganimate(Grap_map,interval=3.5)
+Grap_map_animate=gganimate(Grap_map,interval=3.5)
 #interval is in seconds
 ```
 
