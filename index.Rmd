@@ -251,7 +251,7 @@ Grap_decade_inter=leaflet() %>%
 frameWidget(Grap_decade_inter,height = 500)
 ```
 
-```{r, fig.cap="Figure 3. Animation of graptolite synonymies per year.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE, echo=FALSE,fig.show="Grap_map_animate"}
+```{r, fig.cap="Figure 3. Animation of graptolite synonymies per year.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE, echo=FALSE}
 worldmap=borders("world",colour="gray50",fill="white")
 mapWorld=ggplot()+worldmap
 
