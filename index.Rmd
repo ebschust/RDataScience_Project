@@ -261,7 +261,7 @@ Grap_map=
   geom_point(data=synGrap_locate,aes(x=Longitude,y=Latitude,frame=date),col="blue")+
   coord_equal()
 
-gganimate(Grap_map,interval=3.5)
+gganimate(Grap_map,interval=3.5,"output.gif")
 #interval is in seconds
 ```
 
