@@ -261,9 +261,10 @@ Grap_map=
   geom_point(data=synGrap_locate,aes(x=Longitude,y=Latitude,frame=date),col="blue")+
   coord_equal()
 
-Grap_map_animate=gganimate(Grap_map,interval=3.5)
+Grap_map_animate=gganimate(Grap_map,interval=3.5,"Grap_map_animate.gif")
 #interval is in seconds
 ```
+![Figure 3. Animation of graptolite synonymies per year.](Grap_map_animate.gif)
 
 ```{r,echo=FALSE, tab.cap="Table 1. Number of graptolites with a synonym per year."}
 synGrap=filter(myDict, senior.synonym!="*" & senior.synonym!=99999 & senior.synonym!=9999)
