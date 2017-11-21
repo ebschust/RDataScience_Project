@@ -266,7 +266,8 @@ Grap_map_animate=gganimate(Grap_map,interval=3.5,"Grap_map_animate.gif")
 ```
 ![Figure 3. Animation of graptolite synonymies per year.](Grap_map_animate.gif)
 
-```{r,echo=FALSE, tab.cap="Table 1. Number of graptolites with a synonym per year."}
+
+```{r,echo=FALSE, fig.cap="Table 1. Number of graptolites with a synonym per year."}
 synGrap=filter(myDict, senior.synonym!="*" & senior.synonym!=99999 & senior.synonym!=9999)
 
 #number of synonymies by year
@@ -279,7 +280,7 @@ synGrap_yearcount=
 datatable(synGrap_yearcount,options = list(pageLength=10))
 ```
 
-```{r,echo=FALSE, tab.cap="Table 2. Number of graptolites with a synonym per author."}
+```{r,echo=FALSE, fig.cap="Table 2. Number of graptolites with a synonym per author."}
 #number of synonymies by author
 synGrap_authorcount=
   synGrap %>% 
@@ -289,7 +290,7 @@ synGrap_authorcount=
 datatable(synGrap_authorcount,options=list(pageLength=10))
 ```
 
-```{r,echo=FALSE, tab.cap="Table 3. Number of graptolites with synonyms per author per year."}
+```{r,echo=FALSE, fig.cap="Table 3. Number of graptolites with synonyms per author per year."}
 #group by author, year
 synGrap_authoryear=
   synGrap %>% 
