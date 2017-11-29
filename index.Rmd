@@ -292,7 +292,7 @@ Grap_decade_inter=leaflet() %>%
 frameWidget(Grap_decade_inter,height = 500)
 ```
 
-While the decadal categories show that there are temporal differences in the number of graptolites with synonymies, the majority in these variations are “time averaged” by being grouped together. As such, the animation in figure 3 cycles through every year contained in the data set, starting in 1828. Most notably, there are no graptolite synonymies during the years: 1855-56, 1863, 1878, 1887, 1889, 1892, 1912, 1916-1919, 1922, 1928, 1930, 1940, 1943, 1945-46, 1950, 1957, 1961, 1966, 1985, 1992, 1996, 2002, 2004, and 2007. In addition, there appears to be regional isolation of graptolite synonymies named in the years: 1857, 1882-83, 1891, 1896-97, 1903, 1911, 1913-1915, 1926-27, 1938, 1942, 1944, 1953, 1955-56, 1959, 1968, 1972, 1981, 1990, 1994-95, 1997, 2001, and 2003. This may be significant, however further investigation is needed.
+While the decadal categories show that there are temporal differences in the number of graptolites with synonymies, the majority in these variations are “time averaged” by being grouped together. As such, the animation in figure 3 cycles through every year contained in the data set, starting in 1828. Most notably, there are no graptolite synonymies during the years: 1855-56, 1863, 1878, 1887, 1889, 1892, 1912, 1916-1919, 1922, 1928, 1930, 1940, 1943, 1945-46, 1950, 1957, 1961, 1966, 1985, 1992, 1996, 2002, 2004, and 2007. In addition, there appears to be regional isolation of graptolite synonymies named in the years: 1857, 1882-83, 1891, 1896-97, 1903, 1911, 1913-1915, 1926-27, 1938, 1942, 1944, 1953, 1955-56, 1959, 1968, 1972, 1981, 1990, 1994-95, 1997, 2001, and 2003. These locations may be significant, however further investigation is needed.
 ```{r, fig.cap="Figure 3. Animation of graptolite synonymies per year.", message=FALSE, warning=FALSE, echo=FALSE}
 worldmap=borders("world",colour="gray50",fill="white")
 mapWorld=ggplot()+worldmap
@@ -342,18 +342,26 @@ synGrap_authoryear=
 datatable(synGrap_authoryear,options=list(pageLength=10))
 ```
 
+Results of chi-square tests of data grouped by year:
 ```{r,echo=FALSE}
+# Per year
 chisq.test(synGrap_yearcount$n,simulate.p.value = T,B=1000)
 
 synGrap_year_expct=mutate(synGrap_yearcount,expected=rep(9,length(synGrap_yearcount$n)))
 chisq.test(rbind(synGrap_year_expct$n,synGrap_year_expct$expected))  
+```
 
+Results of chi-square tests of data grouped by author:
+```{r,echo=FALSE}
 # Per author
 chisq.test(synGrap_authorcount$n,simulate.p.value = T,B=1000)
 
 synGrap_author_expect=mutate(synGrap_authorcount,expected=rep(4,length(synGrap_authorcount$n)))
 chisq.test(rbind(synGrap_author_expect$n,synGrap_author_expect$expected))
+```
 
+Results of chi-squared tests of data grouped by author and year:
+```{r,echo=FALSE}
 # Per author per year
 chisq.test(synGrap_authoryear$n,simulate.p.value = T,B=1000)
 
