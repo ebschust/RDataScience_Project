@@ -389,7 +389,7 @@ datatable(Grap_authoryear,options=list(pageLength=10))
 chisq.test(Grap_authoryear$`n senior.synonym`,Grap_authoryear$`n renamed`,simulate.p.value = T,B=1000)
 ```
 
-```{r,echo=FALSE, fig. cap="Figure 4. Line graph of the cumulative sum of the number of renamed graptolites versus the number of senior synonyms over time."}
+```{r,echo=FALSE, fig.cap="Figure 4. Line graph of the cumulative sum of the number of renamed graptolites versus the number of senior synonyms over time."}
 ggplot()+
   geom_line(data=synGrap_yearcount,aes(x=as.numeric(as.character(date)), y=cumsum(n)))+
   geom_line(data=nonsynGrap_year,aes(x=as.numeric(as.character(date)), y=cumsum(n)),col="red")
