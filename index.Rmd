@@ -204,6 +204,44 @@ synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGra
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
 
+The final analyses are based on the comparison of the number of graptolites that have been renamed, or have synonyms, versus graptolites that are the senior synonym, which are species that have never been renamed or are new names of older species. These are grouped by naming author and the year they were named. Using a chi-squared test, these two categories of graptolites are tested for statistical difference with a Monte Carlo simulation using 1000 replicates.
+```{r,eval=False}
+nonsynGrap=
+  filter(myDict,senior.synonym=="*")
+
+nonsynGrap_authoryear=
+  nonsynGrap %>% 
+  group_by(taxon_author,date) %>% 
+  summarise(n=n())
+##2533 in 1035 author year pairs
+
+nonsynGrap_year=
+  nonsynGrap %>% 
+  filter(date!="*" & date!="Chen et al 2011" & date!="1997a" & date!="-1979"
+         & date!="~1999" & date!="unpublished" & date!="in press" & date!="in prep"
+         & date!="dissertation" & date!="Chen et al 2015" & date!="2009a"
+         & date!="" & date!=5310) %>% 
+  group_by(date) %>% 
+  summarise(n=n())
+
+synGrap_authoryear_filter=filter(synGrap_authoryear,date!="*")
+nonsynGrap_authoryear_filter=filter(nonsynGrap_authoryear,date!="*")
+#senior synonyms and renamed graptolites grouped by original naming year&author
+Grap_authoryear=full_join(nonsynGrap_authoryear_filter,synGrap_authoryear_filter,by=c("date","taxon_author"))
+colnames(Grap_authoryear)=c("taxon_author","date","n senior.synonym","n renamed")
+
+datatable(Grap_authoryear,options=list(pageLength=10))
+
+chisq.test(Grap_authoryear$`n senior.synonym`,Grap_authoryear$`n renamed`,simulate.p.value = T,B=1000)
+```
+
+Finally, the number of renamed graptolites versus the number of graptolites that are a senior synonym are plotted as a cumulative sum to visually determine how the number of graptolites requiring a change in name has changed through time.
+```{r, eval=FALSE}
+ggplot()+
+  geom_line(data=synGrap_yearcount,aes(x=as.numeric(as.character(date)), y=cumsum(n)))+
+  geom_line(data=nonsynGrap_year,aes(x=as.numeric(as.character(date)), y=cumsum(n)),col="red")
+```
+
 # Results
 
 ```{r, fig.cap="Figure 1. Map illustrating locations of graptolites and graptolite synonymies.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
@@ -319,6 +357,43 @@ synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGra
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
 
+```{r,echo=FALSE, fig.cap="Table 4. Number of renamed graptolites versus senior synonyms grouped by author and naming year."}
+nonsynGrap=
+  filter(myDict,senior.synonym=="*")
+
+nonsynGrap_authoryear=
+  nonsynGrap %>% 
+  group_by(taxon_author,date) %>% 
+  summarise(n=n())
+##2533 in 1035 author year pairs
+
+nonsynGrap_year=
+  nonsynGrap %>% 
+  filter(date!="*" & date!="Chen et al 2011" & date!="1997a" & date!="-1979"
+         & date!="~1999" & date!="unpublished" & date!="in press" & date!="in prep"
+         & date!="dissertation" & date!="Chen et al 2015" & date!="2009a"
+         & date!="" & date!=5310) %>% 
+  group_by(date) %>% 
+  summarise(n=n())
+
+synGrap_authoryear_filter=filter(synGrap_authoryear,date!="*")
+nonsynGrap_authoryear_filter=filter(nonsynGrap_authoryear,date!="*")
+#senior synonyms and renamed graptolites grouped by original naming year&author
+Grap_authoryear=full_join(nonsynGrap_authoryear_filter,synGrap_authoryear_filter,by=c("date","taxon_author"))
+colnames(Grap_authoryear)=c("taxon_author","date","n senior.synonym","n renamed")
+
+datatable(Grap_authoryear,options=list(pageLength=10))
+```
+
+```{r, echo=FALSE}
+chisq.test(Grap_authoryear$`n senior.synonym`,Grap_authoryear$`n renamed`,simulate.p.value = T,B=1000)
+```
+
+```{r,echo=FALSE, fig. cap="Figure 4. Line graph of the cumulative sum of the number of renamed graptolites versus the number of senior synonyms over time."}
+ggplot()+
+  geom_line(data=synGrap_yearcount,aes(x=as.numeric(as.character(date)), y=cumsum(n)))+
+  geom_line(data=nonsynGrap_year,aes(x=as.numeric(as.character(date)), y=cumsum(n)),col="red")
+```
 # Conclusions
 
 What have you learned?  Are there any broader implications?
