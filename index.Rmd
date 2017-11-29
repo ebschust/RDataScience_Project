@@ -205,7 +205,7 @@ chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected)
 ```
 
 The final analyses are based on the comparison of the number of graptolites that have been renamed, or have synonyms, versus graptolites that are the senior synonym, which are species that have never been renamed or are new names of older species. These are grouped by naming author and the year they were named. Using a chi-squared test, these two categories of graptolites are tested for statistical difference with a Monte Carlo simulation using 1000 replicates.
-```{r,eval=False}
+```{r,eval=FALSE}
 nonsynGrap=
   filter(myDict,senior.synonym=="*")
 
