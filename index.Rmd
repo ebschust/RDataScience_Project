@@ -423,7 +423,7 @@ ggplot()+
   geom_line(data=synGrap_yearcount,aes(x=as.numeric(as.character(date)), y=cumsum(n)))+
   geom_line(data=nonsynGrap_year,aes(x=as.numeric(as.character(date)), y=cumsum(n)),col="red")+
   xlab("Date")+
-  ylab("Cumulative Sum of Number of graptolites")
+  ylab("Cumulative sum of graptolite species")
 ```
   
 <span style="color:black">The line graph shows that the number of renamed graptolites and the number of senior synonyms follows the same line until about the 1930s. At that point, the two groups begin to diverge, with the number of senior synonyms continuing to grow while the number of renamed graptolites begins to level off in the early 2000s.</span>
