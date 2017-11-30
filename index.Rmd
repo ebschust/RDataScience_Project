@@ -5,21 +5,21 @@ subtitle: Correlation to temporal, geographic, or authorial factors?
 ---
 
 # Introduction
-<span style="color:black">Taxonomy is the method by which organisms are assigned to a genus and species group. It is a science that is constantly evolving due to our growing knowledge of a group of organisms. This is especially true of graptolite taxonomy. Early work with graptolites focused solely on naming graptolites for use in biostratigraphy, meaning that graptolites were loosely grouped based on their general appearance instead of evolutionary or trait based backing. As studies into the evolution in graptolite morphology, or genetics based traits increased, there was an increasing realization that synonymies, or the same type of organism with different taxonomic names, existed. Through carefully examination of graptolite literature these synonyms are slowly being identified (Mitchell et. al, unpublished data). However, the presence of synonyms may not only be due to changes in graptolite research through time. These synonyms may be geographically located either due to a cultural preference for generating new species or a tectonically strained region where morphology is more difficult to constrain. It may also be that particular authors were more likely to generate new species names due to a variety of factors. 
+<span style="color:black">Taxonomy is the method by which organisms are assigned to a genus and species group. It is a science that is constantly evolving due to our growing knowledge of a group of organisms. This is especially true of graptolite taxonomy. Early work with graptolites focused solely on naming graptolites for use in biostratigraphy, meaning that graptolites were loosely grouped based on their general appearance instead of evolutionary or trait based backing. As studies into the evolution in graptolite morphology, or genetics based traits increased, there was an increasing realization that synonymies, or the same type of organism with different taxonomic names, existed. Through carefully examination of graptolite literature these synonyms are slowly being identified (Mitchell et. al, unpublished data). However, the presence of synonyms may not only be due to changes in graptolite research through time. These synonyms may be geographically located either due to a cultural preference for generating new species or a tectonically strained region where morphology is more difficult to constrain. It may also be that particular authors were more likely to generate new species names due to a variety of factors.</span> 
 
-This research will attempt to examine any correlation by first mapping the presence of graptolites that both with and without synonyms on a world map to visually determine locations with more synonymies. This map will then be animated such that the graptolite locations will plot based upon the year that they were named. If there is a temporal correlation to synonymies, more synonyms should plot within a given time frame than others. Finally, the graptolites with synonyms will be grouped by the original naming author with the number of individual species summed per author to determine if there is an author based correlation.</span>
+<span style="color:black">This research will attempt to examine any correlation by first mapping the presence of graptolites that both with and without synonyms on a world map to visually determine locations with more synonymies. This map will then be animated such that the graptolite locations will plot based upon the year that they were named. If there is a temporal correlation to synonymies, more synonyms should plot within a given time frame than others. Finally, the graptolites with synonyms will be grouped by the original naming author with the number of individual species summed per author to determine if there is an author based correlation.</span>
 
 
 # Materials and methods
 
-The presence of graptolite synonymies may be correlated to a number of factors including time, cultural or tectonic location, and author. The project will combine data on synonymies, contained within the Taxonomic Dictionary (Mitchell et. al., unpublished data), with graptolite locatlity information, complied as section data (Mitchell et. al., unpublished data). This will be used to:
+<span style="color:black">The presence of graptolite synonymies may be correlated to a number of factors including time, cultural or tectonic location, and author. The project will combine data on synonymies, contained within the Taxonomic Dictionary (Mitchell et. al., unpublished data), with graptolite locatlity information, complied as section data (Mitchell et. al., unpublished data). This will be used to:
 
 1. Examine geographic distribution of graptolites with synonymies compared to graptolites without synonymies
 2. Examine temporal distribution of graptolite synonymies
 3. Determine the number of synonymies based on naming author
 4. Determine number of synonymies per author per year.
 
-Intially, the required packages will need to be loaded (you may need to install some packages):
+Intially, the required packages will need to be loaded (you may need to install some packages):</span>
 
 ```{r, message=F, warning=F}
 library(dplyr)
@@ -41,7 +41,7 @@ library(httr)
 library(gganimate)
 ```
 
-The data is contained in two comma separated files (CSV), the Taxonomic Dictionary and the section data.
+<span style="color:black">The data is contained in two comma separated files (CSV), the Taxonomic Dictionary and the section data.</span>
 ```{r}
 #Load Taxonomic Dictionary
 
@@ -54,7 +54,7 @@ mySect=read.csv("data/sections_table format.csv", header=T, sep =",")
 
 ## Geographic Methodology
 
-After loading both CSV files, the section data and the Taxonomic Dictionary must be joined so that all the geographic locations are paired with the correct taxonomic information including the presence of senior synonyms. This data is then filtered by the senior synonym column in order to generate a list that contains only graptolite locations with named senior synonyms.
+<span style="color:black">After loading both CSV files, the section data and the Taxonomic Dictionary must be joined so that all the geographic locations are paired with the correct taxonomic information including the presence of senior synonyms. This data is then filtered by the senior synonym column in order to generate a list that contains only graptolite locations with named senior synonyms.</span>
 ```{r}
 #Join the sections data and the graptolite dictionary
 Grap_locate=full_join(mySect,myDict,by="GRCode")
@@ -63,7 +63,7 @@ Grap_locate=full_join(mySect,myDict,by="GRCode")
 synGrap_locate=filter(Grap_locate, senior.synonym!="*" & senior.synonym!=99999)
 ```
 
-These two data sets are then visually compared by overlapping the synonyms list over all of the graptolite locations on a world map.
+<span style="color:black">These two data sets are then visually compared by overlapping the synonyms list over all of the graptolite locations on a world map.</span>
 ```{r, fig.width=6, fig.height=3, fig.cap="Map illustrating graptolite locations",eval=FALSE}
 Grap_map_inter=leaflet() %>% 
   addTiles() %>% 
@@ -73,7 +73,7 @@ Grap_map_inter=leaflet() %>%
 frameWidget(Grap_map_inter,height = 500)
 ```
 
-The synonymies are then filtered by the decade in which they were named, beginning in 1828 with the first named species.
+<span style="color:black">The synonymies are then filtered by the decade in which they were named, beginning in 1828 with the first named species.</span>
 ```{r}
 # Filter by "decade"
 synGrap_year=filter(synGrap_locate, date!="*" & date!="Chen et al 2011" & date!="1997a")
@@ -99,7 +99,7 @@ synGrap_1920_9807=filter(synGrap_year, date==1998 | date==1999 | date==2000 | da
 synGrap_20_0817=filter(synGrap_year, date==2008 | date==2009 | date==2010 | date==2011 | date==2012 | date==2013 | date==2014 | date==2015 | date==2016 | date==2017)
 ```
 
-These subdivisions are then mapped on a world map as individual layers to indicate if there is a geographic relation with the above decadal time breaks.
+<span style="color:black">These subdivisions are then mapped on a world map as individual layers to indicate if there is a geographic relation with the above decadal time breaks.</span>
 ```{r, fig.width=6, fig.height=3, fig.cap="Map of graptolite locations grouped by decade", eval=FALSE}
 Grap_decade_inter=leaflet() %>% 
   addTiles() %>% 
@@ -134,7 +134,7 @@ Grap_decade_inter=leaflet() %>%
 frameWidget(Grap_decade_inter,height = 500)
 ```
 
-However, there is more variation in the number and locations of synonymies by year that is being time averaged on the decade scale. This differentiation is displayed using an animation.
+<span style="color:black">However, there is more variation in the number and locations of synonymies by year that is being time averaged on the decade scale. This differentiation is displayed using an animation.</span>
 ```{r, eval=FALSE}
 worldmap=borders("world",colour="gray50",fill="white")
 mapWorld=ggplot()+worldmap
@@ -151,7 +151,7 @@ gganimate(Grap_map,interval=3.5)
 
 ## Temporal and Authorial Analysis Methodology
 
-In order to observe any correlation between the number of graptolite synonymies and temporal factors or the naming author, the data from the Taxonomic Dictionary is first filtered and then the number of instances per year or author are counted. These are displayed in interactive tables.
+<span style="color:black">In order to observe any correlation between the number of graptolite synonymies and temporal factors or the naming author, the data from the Taxonomic Dictionary is first filtered and then the number of instances per year or author are counted. These are displayed in interactive tables.</span>
 ```{r,eval=FALSE}
 synGrap=filter(myDict, senior.synonym!="*" & senior.synonym!=99999 & senior.synonym!=9999)
 
@@ -173,7 +173,7 @@ synGrap_authorcount=
 datatable(synGrap_authorcount,options=list(pageLength=10))
 ```
 
-Observation of the number of synonymies per author led to the question if there is a correlation of the number of synonymies per author per year.
+<span style="color:black">Observation of the number of synonymies per author led to the question if there is a correlation of the number of synonymies per author per year.</span>
 ```{r,eval=FALSE}
 #group by author, year
 synGrap_authoryear=
@@ -184,7 +184,7 @@ synGrap_authoryear=
 datatable(synGrap_authoryear,options=list(pageLength=10))
 ```
 
-These three analyses are statistically tested for significance by applying two chi-squared tests. The first tests the null hypothesis that there is a random distribution of graptolites with synonymies within the categories. This is accomplished with a Monte Carlo simulation utilizing 1000 replicates. The second tests the null hypothesis that there is a uniform distribution of graptolites with synonymies (observed=expected).
+<span style="color:black">These three analyses are statistically tested for significance by applying two chi-squared tests. The first tests the null hypothesis that there is a random distribution of graptolites with synonymies within the categories. This is accomplished with a Monte Carlo simulation utilizing 1000 replicates. The second tests the null hypothesis that there is a uniform distribution of graptolites with synonymies (observed=expected).</span>
 ```{r, eval=FALSE}
 chisq.test(synGrap_yearcount$n,,simulate.p.value = T,B=1000)
 
@@ -204,7 +204,7 @@ synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGra
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
 
-The final analysis is based on the comparison of the number of graptolites that have been renamed, or have synonyms, versus graptolites that are the senior synonym, which are species that have never been renamed or are new names of older species. These are grouped by naming author and the year they were named. Using a single chi-squared test, these two categories of graptolites are tested to determine if they are statistically different from each other by using a Monte Carlo simulation using 1000 replicates.
+<span style="color:black">The final analysis is based on the comparison of the number of graptolites that have been renamed, or have synonyms, versus graptolites that are the senior synonym, which are species that have never been renamed or are new names of older species. These are grouped by naming author and the year they were named. Using a single chi-squared test, these two categories of graptolites are tested to determine if they are statistically different from each other by using a Monte Carlo simulation using 1000 replicates.</span>
 ```{r,eval=FALSE}
 nonsynGrap=
   filter(myDict,senior.synonym=="*")
@@ -235,7 +235,7 @@ datatable(Grap_authoryear,options=list(pageLength=10))
 chisq.test(Grap_authoryear$`n senior.synonym`,Grap_authoryear$`n renamed`,simulate.p.value = T,B=1000)
 ```
 
-Finally, the number of renamed graptolites versus the number of graptolites that are a senior synonym are plotted as a cumulative sum to visually determine how the number of graptolites requiring a change in name has changed through time.
+<span style="color:black">Finally, the number of renamed graptolites versus the number of graptolites that are a senior synonym are plotted as a cumulative sum to visually determine how the number of graptolites requiring a change in name has changed through time.</span>
 ```{r, eval=FALSE}
 ggplot()+
   geom_line(data=synGrap_yearcount,aes(x=as.numeric(as.character(date)), y=cumsum(n)))+
@@ -243,9 +243,9 @@ ggplot()+
 ```
 
 # Results
-As research into graptolite taxonomy has developed and grown, graptolite names and naming procedures have also evolved. As a result, many graptolites that were originally named for biostratigraphy or in the earliest periods of graptolite research have synonymies. These synonymies were analyzed to determine if there was a correlation to their geography, when the graptolites were named, or who the naming authors were.  
+<span style="color:black">As research into graptolite taxonomy has developed and grown, graptolite names and naming procedures have also evolved. As a result, many graptolites that were originally named for biostratigraphy or in the earliest periods of graptolite research have synonymies. These synonymies were analyzed to determine if there was a correlation to their geography, when the graptolites were named, or who the naming authors were.  
 
-Due to the nature of graptolite preservation and collection, no geographical analysis of synonym locations would yield any illuminating results. Any analysis shows that the graptolites are highly clustered. However, figure 1 clearly shows that the majority of the locations where graptolites have been collected are locations where synonymies occur. This is most likely due to the nature of the graptolite Taxonomic Dictionary. The Taxonomic Dictionary mostly contains graptolites which occur globally as these are more useful to wider research applications than endemic or local species. As such, the distribution of synonyms may vary as more endemic species are added to the Dictionary.
+Due to the nature of graptolite preservation and collection, no geographical analysis of synonym locations would yield any illuminating results. Any analysis shows that the graptolites are highly clustered. However, figure 1 clearly shows that the majority of the locations where graptolites have been collected are locations where synonymies occur. This is most likely due to the nature of the graptolite Taxonomic Dictionary. The Taxonomic Dictionary mostly contains graptolites which occur globally as these are more useful to wider research applications than endemic or local species. As such, the distribution of synonyms may vary as more endemic species are added to the Dictionary.</span>
 ```{r, fig.cap="Figure 1. Map illustrating locations of graptolites and graptolite synonymies.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
 
 Grap_map_inter=leaflet() %>% 
@@ -257,7 +257,7 @@ frameWidget(Grap_map_inter,height = 500)
 ```
   
 
- Since there is no correlation strictly between geography and graptolite synonyms, the locations were divided into the decades in which the graptolites were named, starting in 1828 (Figure 2). Again, due to the nature of graptolite collection and preservation, there are no analyses that will show the data as anything other than clustered and having a global distribution.
+<span style="color:black">Since there is no correlation strictly between geography and graptolite synonyms, the locations were divided into the decades in which the graptolites were named, starting in 1828 (Figure 2). Again, due to the nature of graptolite collection and preservation, there are no analyses that will show the data as anything other than clustered and having a global distribution.</span>
    
 ```{r, fig.cap="Figure 2. Map of graptolite locations grouped by decade.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
 
@@ -295,7 +295,7 @@ frameWidget(Grap_decade_inter,height = 500)
 ```
   
 
-While the decadal categories show that there are temporal differences in the number of graptolites with synonymies, the majority in these variations are “time averaged” by being grouped together. As such, the animation in figure 3 cycles through every year contained in the data set, starting in 1828. Most notably, there are no graptolite synonymies during the years: 1855-56, 1863, 1878, 1887, 1889, 1892, 1912, 1916-1919, 1922, 1928, 1930, 1940, 1943, 1945-46, 1950, 1957, 1961, 1966, 1985, 1992, 1996, 2002, 2004, and 2007. In addition, there appears to be regional isolation of graptolite synonymies named in the years: 1857, 1882-83, 1891, 1896-97, 1903, 1911, 1913-1915, 1926-27, 1938, 1942, 1944, 1953, 1955-56, 1959, 1968, 1972, 1981, 1990, 1994-95, 1997, 2001, and 2003. These locations may be significant, however further investigation is needed.
+<span style="color:black">While the decadal categories show that there are temporal differences in the number of graptolites with synonymies, the majority in these variations are “time averaged” by being grouped together. As such, the animation in figure 3 cycles through every year contained in the data set, starting in 1828. Most notably, there are no graptolite synonymies during the years: 1855-56, 1863, 1878, 1887, 1889, 1892, 1912, 1916-1919, 1922, 1928, 1930, 1940, 1943, 1945-46, 1950, 1957, 1961, 1966, 1985, 1992, 1996, 2002, 2004, and 2007. In addition, there appears to be regional isolation of graptolite synonymies named in the years: 1857, 1882-83, 1891, 1896-97, 1903, 1911, 1913-1915, 1926-27, 1938, 1942, 1944, 1953, 1955-56, 1959, 1968, 1972, 1981, 1990, 1994-95, 1997, 2001, and 2003. These locations may be significant, however further investigation is needed.</span>
 ```{r, fig.cap="Figure 3. Animation of graptolite synonymies per year.", message=FALSE, warning=FALSE, echo=FALSE}
 worldmap=borders("world",colour="gray50",fill="white")
 mapWorld=ggplot()+worldmap
@@ -312,7 +312,7 @@ Grap_map_animate=gganimate(Grap_map,interval=3.5,"Grap_map_animate.gif")
 ![Figure 3. Animation of graptolite synonymies per year.](Grap_map_animate.gif)
   
 
-In addition to geography, graptolite synonymies could be correlated to the year the species were named or the naming author. This is analyzed by grouping the graptolite synonymies by year, by author, and by author and year (Tables 1, 2, and 3).
+<span style="color:black">In addition to geography, graptolite synonymies could be correlated to the year the species were named or the naming author. This is analyzed by grouping the graptolite synonymies by year, by author, and by author and year (Tables 1, 2, and 3).</span>
   
 ```{r,echo=FALSE, fig.cap="Table 1. Number of graptolites with a synonym per year."}
 synGrap=filter(myDict, senior.synonym!="*" & senior.synonym!=99999 & senior.synonym!=9999)
@@ -350,7 +350,7 @@ datatable(synGrap_authoryear,options=list(pageLength=10))
 ```
   
 
-Using two chi-squared tests for each potential correlation, grouping by year, by author, and by author and year are all significantly different than a random distribution.  However, only the two year and author groupings are significantly different than a uniform, or expected distribution. The author and year grouping has a p-value of 0.966, meaning that it is not significantly different.  
+<span style="color:black">Using two chi-squared tests for each potential correlation, grouping by year, by author, and by author and year are all significantly different than a random distribution.  However, only the two year and author groupings are significantly different than a uniform, or expected distribution. The author and year grouping has a p-value of 0.966, meaning that it is not significantly different.</span>  
 
   
 Results of chi-square tests of data grouped by year:
@@ -380,7 +380,7 @@ synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGra
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
   
-The above analyses raise the question if there is a significant difference between the number of renamed graptolites and the number of senior synonyms when grouped by author and year (Table 4).
+<span style="color:black">The above analyses raise the question if there is a significant difference between the number of renamed graptolites and the number of senior synonyms when grouped by author and year (Table 4).</span>
   
 ```{r,echo=FALSE, fig.cap="Table 4. Number of renamed graptolites versus senior synonyms grouped by author and year."}
 nonsynGrap=
@@ -415,16 +415,16 @@ Results of the chi-squared test of data grouped by author and year:
 ```{r, echo=FALSE, warning=FALSE}
 chisq.test(Grap_authoryear$`n senior.synonym`,Grap_authoryear$`n renamed`,simulate.p.value = T,B=1000)
 ```
-The chi-squared test has a p-value of 0.000999 indicating a statistical difference between the number of renamed graptolites and senior synonyms when grouped by author and year.  
+<span style="color:black">The chi-squared test has a p-value of 0.000999 indicating a statistical difference between the number of renamed graptolites and senior synonyms when grouped by author and year.  
 
-Finally, the cumulative sum of the number of renamed graptolites and senior synonyms are plotted by date (Figure 4).
+Finally, the cumulative sum of the number of renamed graptolites and senior synonyms are plotted by date (Figure 4).</span>
 ```{r,echo=FALSE, fig.cap="Figure 4. Line graph of the cumulative sum of the number of renamed graptolites (black) versus the number of senior synonyms (red) over time."}
 ggplot()+
   geom_line(data=synGrap_yearcount,aes(x=as.numeric(as.character(date)), y=cumsum(n)))+
   geom_line(data=nonsynGrap_year,aes(x=as.numeric(as.character(date)), y=cumsum(n)),col="red")
 ```
   
-The line graph shows that the number of renamed graptolites and the number of senior synonyms follows the same line until about the 1930s. At that point, the two groups begin to diverge, with the number of senior synonyms continuing to grow while the number of renamed graptolites begins to level off in the early 2000s.
+<span style="color:black">The line graph shows that the number of renamed graptolites and the number of senior synonyms follows the same line until about the 1930s. At that point, the two groups begin to diverge, with the number of senior synonyms continuing to grow while the number of renamed graptolites begins to level off in the early 2000s.</span>
 
 # Conclusions
 
