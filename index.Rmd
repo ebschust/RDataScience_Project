@@ -292,7 +292,7 @@ Grap_decade_inter=leaflet() %>%
                                    "Graptolite Synonymies 1938-1947","Graptolite Synonymies 1948-1957","Graptolite Synonymies 1958-1967",
                                    "Graptolite Synonymies 1968-1977","Graptolite Synonymies 1978-1987","Graptolite Synonymies 1988-1997",
                                    "Graptolite Synonymies 1998-2007","Graptolite Synonymies 2008-2011"),
-                   options=layersControlOptions(collapsed=F))
+                   options=layersControlOptions(collapsed=T))
 frameWidget(Grap_decade_inter,height = 500)
 ```
   
