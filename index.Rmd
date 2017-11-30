@@ -246,7 +246,7 @@ ggplot()+
 <span style="color:black">As research into graptolite taxonomy has developed and grown, graptolite names and naming procedures have also evolved. As a result, many graptolites that were originally named for biostratigraphy or in the earliest periods of graptolite research have synonymies. These synonymies were analyzed to determine if there was a correlation to their geography, when the graptolites were named, or who the naming authors were.</span>  
 
 <span style="color:black">Due to the nature of graptolite preservation and collection, no geographical analysis of synonym locations would yield any illuminating results. Any analysis shows that the graptolites are highly clustered. However, figure 1 clearly shows that the majority of the locations where graptolites have been collected are locations where synonymies occur. This is most likely due to the nature of the graptolite Taxonomic Dictionary. The Taxonomic Dictionary mostly contains graptolites which occur globally as these are more useful to wider research applications than endemic or local species. As such, the distribution of synonyms may vary as more endemic species are added to the Dictionary.</span>
-```{r, fig.cap="Figure 1. Map illustrating locations of graptolites and graptolite synonymies.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
+```{r, fig.cap="Figure 1. Map illustrating locations of graptolites and graptolite synonymies. All graptolite locations are red and locations with graptolite synonymies are blue.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
 
 Grap_map_inter=leaflet() %>% 
   addTiles() %>% 
@@ -259,7 +259,7 @@ frameWidget(Grap_map_inter,height = 500)
 
 <span style="color:black">Since there is no correlation strictly between geography and graptolite synonyms, the locations were divided into the decades in which the graptolites were named, starting in 1828 (Figure 2). Again, due to the nature of graptolite collection and preservation, there are no analyses that will show the data as anything other than clustered and having a global distribution.</span>
    
-```{r, fig.cap="Figure 2. Map of graptolite locations grouped by decade.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
+```{r, fig.cap="Figure 2. Map of graptolite locations grouped by decade. All graptolite locations are red and locations with graptolite synonymies are blue.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
 
 Grap_decade_inter=leaflet() %>% 
   addTiles() %>% 
@@ -296,7 +296,7 @@ frameWidget(Grap_decade_inter,height = 500)
   
 
 <span style="color:black">While the decadal categories show that there are temporal differences in the number of graptolites with synonymies, the majority in these variations are “time averaged” by being grouped together. As such, the animation in figure 3 cycles through every year contained in the data set, starting in 1828. Most notably, there are no graptolite synonymies during the years: 1855-56, 1863, 1878, 1887, 1889, 1892, 1912, 1916-1919, 1922, 1928, 1930, 1940, 1943, 1945-46, 1950, 1957, 1961, 1966, 1985, 1992, 1996, 2002, 2004, and 2007. In addition, there appears to be regional isolation of graptolite synonymies named in the years: 1857, 1882-83, 1891, 1896-97, 1903, 1911, 1913-1915, 1926-27, 1938, 1942, 1944, 1953, 1955-56, 1959, 1968, 1972, 1981, 1990, 1994-95, 1997, 2001, and 2003. These locations may be significant, however further investigation is needed.</span>
-```{r, fig.cap="Figure 3. Animation of graptolite synonymies per year.", message=FALSE, warning=FALSE, echo=FALSE}
+```{r, fig.cap="Figure 3. Animation of graptolite synonymies per year. All graptolite locations are red and locations with graptolite synonymies are blue.", message=FALSE, warning=FALSE, echo=FALSE}
 worldmap=borders("world",colour="gray50",fill="white")
 mapWorld=ggplot()+worldmap
 
@@ -421,7 +421,9 @@ chisq.test(Grap_authoryear$`n senior.synonym`,Grap_authoryear$`n renamed`,simula
 ```{r,echo=FALSE, fig.cap="Figure 4. Line graph of the cumulative sum of the number of renamed graptolites (black) versus the number of senior synonyms (red) over time."}
 ggplot()+
   geom_line(data=synGrap_yearcount,aes(x=as.numeric(as.character(date)), y=cumsum(n)))+
-  geom_line(data=nonsynGrap_year,aes(x=as.numeric(as.character(date)), y=cumsum(n)),col="red")
+  geom_line(data=nonsynGrap_year,aes(x=as.numeric(as.character(date)), y=cumsum(n)),col="red")+
+  xlab("Date")+
+  ylab("Cumulative Sum of Number of graptolites")
 ```
   
 <span style="color:black">The line graph shows that the number of renamed graptolites and the number of senior synonyms follows the same line until about the 1930s. At that point, the two groups begin to diverge, with the number of senior synonyms continuing to grow while the number of renamed graptolites begins to level off in the early 2000s.</span>
