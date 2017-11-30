@@ -354,7 +354,7 @@ Using two chi-squared tests for each potential correlation, grouping by year, by
 
   
 Results of chi-square tests of data grouped by year:
-```{r,echo=FALSE}
+```{r,echo=FALSE, warning=FALSE}
 # Per year
 chisq.test(synGrap_yearcount$n,simulate.p.value = T,B=1000)
 
@@ -363,7 +363,7 @@ chisq.test(rbind(synGrap_year_expct$n,synGrap_year_expct$expected))
 ```
 
 Results of chi-square tests of data grouped by author:
-```{r,echo=FALSE}
+```{r,echo=FALSE, warning=FALSE}
 # Per author
 chisq.test(synGrap_authorcount$n,simulate.p.value = T,B=1000)
 
@@ -372,7 +372,7 @@ chisq.test(rbind(synGrap_author_expect$n,synGrap_author_expect$expected))
 ```
 
 Results of chi-squared tests of data grouped by author and year:
-```{r,echo=FALSE}
+```{r,echo=FALSE, warning=FALSE}
 # Per author per year
 chisq.test(synGrap_authoryear$n,simulate.p.value = T,B=1000)
 
@@ -412,7 +412,7 @@ datatable(Grap_authoryear,options=list(pageLength=10))
   
 
 Results of the chi-squared test of data grouped by author and year:
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 chisq.test(Grap_authoryear$`n senior.synonym`,Grap_authoryear$`n renamed`,simulate.p.value = T,B=1000)
 ```
 The chi-squared test has a p-value of 0.000999 indicating a statistical difference between the number of renamed graptolites and senior synonyms when grouped by author and year.  
