@@ -204,7 +204,7 @@ synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGra
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
 
-The final analyses are based on the comparison of the number of graptolites that have been renamed, or have synonyms, versus graptolites that are the senior synonym, which are species that have never been renamed or are new names of older species. These are grouped by naming author and the year they were named. Using a chi-squared test, these two categories of graptolites are tested for statistical difference with a Monte Carlo simulation using 1000 replicates.
+The final analysis is based on the comparison of the number of graptolites that have been renamed, or have synonyms, versus graptolites that are the senior synonym, which are species that have never been renamed or are new names of older species. These are grouped by naming author and the year they were named. Using a single chi-squared test, these two categories of graptolites are tested to determine if they are statistically different from each other by using a Monte Carlo simulation using 1000 replicates.
 ```{r,eval=FALSE}
 nonsynGrap=
   filter(myDict,senior.synonym=="*")
@@ -308,7 +308,7 @@ Grap_map_animate=gganimate(Grap_map,interval=3.5,"Grap_map_animate.gif")
 ```
 ![Figure 3. Animation of graptolite synonymies per year.](Grap_map_animate.gif)
 
-
+In addition to geography, graptolite synonymies could be correlated to the year the species were named or the naming author. This is analyzed by grouping the graptolite synonymies by year, by author, and by author and year (Tables 1, 2, and 3).
 ```{r,echo=FALSE, fig.cap="Table 1. Number of graptolites with a synonym per year."}
 synGrap=filter(myDict, senior.synonym!="*" & senior.synonym!=99999 & senior.synonym!=9999)
 
@@ -342,6 +342,8 @@ synGrap_authoryear=
 datatable(synGrap_authoryear,options=list(pageLength=10))
 ```
 
+Using two chi-squared tests for each potential correlation, grouping by year, by author, and by author and year are all significantly different than a random distribution.  However, only the two year and author groupings are significantly different than a uniform, or expected distribution. The author and year grouping has a p-value of 0.966, meaning that it is not significantly different.
+
 Results of chi-square tests of data grouped by year:
 ```{r,echo=FALSE}
 # Per year
@@ -369,7 +371,8 @@ synGrap_authoryear_expect=mutate(synGrap_authoryear,expected=rep(3,length(synGra
 chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected))
 ```
 
-```{r,echo=FALSE, fig.cap="Table 4. Number of renamed graptolites versus senior synonyms grouped by author and naming year."}
+The above analyses raise the question if there is a significant difference between the number of renamed graptolites and the number of senior synonyms when grouped by author and year (Table 4).
+```{r,echo=FALSE, fig.cap="Table 4. Number of renamed graptolites versus senior synonyms grouped by author and year."}
 nonsynGrap=
   filter(myDict,senior.synonym=="*")
 
@@ -400,12 +403,16 @@ datatable(Grap_authoryear,options=list(pageLength=10))
 ```{r, echo=FALSE}
 chisq.test(Grap_authoryear$`n senior.synonym`,Grap_authoryear$`n renamed`,simulate.p.value = T,B=1000)
 ```
+The chi-squared test has a p-value of 0.000999 indicating a statistical difference between the number of renamed graptolites and senior synonyms when grouped by author and year.  
 
+Finally, the cumulative sum of the number of renamed graptolites and senior synonyms are plotted by date (Figure 4).
 ```{r,echo=FALSE, fig.cap="Figure 4. Line graph of the cumulative sum of the number of renamed graptolites (black) versus the number of senior synonyms (red) over time."}
 ggplot()+
   geom_line(data=synGrap_yearcount,aes(x=as.numeric(as.character(date)), y=cumsum(n)))+
   geom_line(data=nonsynGrap_year,aes(x=as.numeric(as.character(date)), y=cumsum(n)),col="red")
 ```
+The line graph shows that the number of renamed graptolites and the number of senior synonyms follows the same line until about the 1930s. At that point, the two groups begin to diverge, with the number of senior synonyms continuing to grow while the number of renamed graptolites begins to level off in the early 2000s.
+
 # Conclusions
 
 What have you learned?  Are there any broader implications?
