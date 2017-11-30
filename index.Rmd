@@ -15,8 +15,8 @@ subtitle: Correlation to temporal, geographic, or authorial factors?
 <span style="color:black">The presence of graptolite synonymies may be correlated to a number of factors including time, cultural or tectonic location, and author. The project will combine data on synonymies, contained within the Taxonomic Dictionary (Mitchell et. al., unpublished data), with graptolite locatlity information, complied as section data (Mitchell et. al., unpublished data). This will be used to:</span>
 
 <span style="color:black">1. Examine geographic distribution of graptolites with synonymies compared to graptolites without synonymies</span>
-<span style="color:black">2. Examine temporal distribution of graptolite synonymies</span>
-<span style="color:black">3. Determine the number of synonymies based on naming author</span>
+<span style="color:black">2. Examine temporal distribution of graptolite synonymies</span>  
+<span style="color:black">3. Determine the number of synonymies based on naming author</span>  
 <span style="color:black">4. Determine number of synonymies per author per year.</span>
 
 <span style="color:black">Intially, the required packages will need to be loaded (you may need to install some packages):</span>
