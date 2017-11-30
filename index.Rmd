@@ -256,6 +256,7 @@ Grap_map_inter=leaflet() %>%
 frameWidget(Grap_map_inter,height = 500)
 ```
 
+
  Since there is no correlation strictly between geography and graptolite synonyms, the locations were divided into the decades in which the graptolites were named, starting in 1828 (Figure 2). Again, due to the nature of graptolite collection and preservation, there are no analyses that will show the data as anything other than clustered and having a global distribution.
 ```{r, fig.cap="Figure 2. Map of graptolite locations grouped by decade.", fig.height=3, fig.width=6, message=FALSE, warning=FALSE,echo=FALSE}
 
@@ -292,6 +293,7 @@ Grap_decade_inter=leaflet() %>%
 frameWidget(Grap_decade_inter,height = 500)
 ```
 
+
 While the decadal categories show that there are temporal differences in the number of graptolites with synonymies, the majority in these variations are “time averaged” by being grouped together. As such, the animation in figure 3 cycles through every year contained in the data set, starting in 1828. Most notably, there are no graptolite synonymies during the years: 1855-56, 1863, 1878, 1887, 1889, 1892, 1912, 1916-1919, 1922, 1928, 1930, 1940, 1943, 1945-46, 1950, 1957, 1961, 1966, 1985, 1992, 1996, 2002, 2004, and 2007. In addition, there appears to be regional isolation of graptolite synonymies named in the years: 1857, 1882-83, 1891, 1896-97, 1903, 1911, 1913-1915, 1926-27, 1938, 1942, 1944, 1953, 1955-56, 1959, 1968, 1972, 1981, 1990, 1994-95, 1997, 2001, and 2003. These locations may be significant, however further investigation is needed.
 ```{r, fig.cap="Figure 3. Animation of graptolite synonymies per year.", message=FALSE, warning=FALSE, echo=FALSE}
 worldmap=borders("world",colour="gray50",fill="white")
@@ -307,6 +309,7 @@ Grap_map_animate=gganimate(Grap_map,interval=3.5,"Grap_map_animate.gif")
 #interval is in seconds
 ```
 ![Figure 3. Animation of graptolite synonymies per year.](Grap_map_animate.gif)
+
 
 In addition to geography, graptolite synonymies could be correlated to the year the species were named or the naming author. This is analyzed by grouping the graptolite synonymies by year, by author, and by author and year (Tables 1, 2, and 3).
 ```{r,echo=FALSE, fig.cap="Table 1. Number of graptolites with a synonym per year."}
@@ -342,6 +345,7 @@ synGrap_authoryear=
 datatable(synGrap_authoryear,options=list(pageLength=10))
 ```
 
+
 Using two chi-squared tests for each potential correlation, grouping by year, by author, and by author and year are all significantly different than a random distribution.  However, only the two year and author groupings are significantly different than a uniform, or expected distribution. The author and year grouping has a p-value of 0.966, meaning that it is not significantly different.
 
 Results of chi-square tests of data grouped by year:
@@ -372,6 +376,7 @@ chisq.test(rbind(synGrap_authoryear_expect$n,synGrap_authoryear_expect$expected)
 ```
 
 The above analyses raise the question if there is a significant difference between the number of renamed graptolites and the number of senior synonyms when grouped by author and year (Table 4).
+
 ```{r,echo=FALSE, fig.cap="Table 4. Number of renamed graptolites versus senior synonyms grouped by author and year."}
 nonsynGrap=
   filter(myDict,senior.synonym=="*")
@@ -400,6 +405,8 @@ colnames(Grap_authoryear)=c("taxon_author","date","n senior.synonym","n renamed"
 datatable(Grap_authoryear,options=list(pageLength=10))
 ```
 
+
+Results of the chi-squared test of data grouped by author and year:
 ```{r, echo=FALSE}
 chisq.test(Grap_authoryear$`n senior.synonym`,Grap_authoryear$`n renamed`,simulate.p.value = T,B=1000)
 ```
@@ -411,6 +418,7 @@ ggplot()+
   geom_line(data=synGrap_yearcount,aes(x=as.numeric(as.character(date)), y=cumsum(n)))+
   geom_line(data=nonsynGrap_year,aes(x=as.numeric(as.character(date)), y=cumsum(n)),col="red")
 ```
+
 The line graph shows that the number of renamed graptolites and the number of senior synonyms follows the same line until about the 1930s. At that point, the two groups begin to diverge, with the number of senior synonyms continuing to grow while the number of renamed graptolites begins to level off in the early 2000s.
 
 # Conclusions
