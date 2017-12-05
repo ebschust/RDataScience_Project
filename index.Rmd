@@ -5,16 +5,16 @@ subtitle: Correlation to temporal, geographic, or authorial factors?
 ---
 
 # Introduction
-<span style="color:black">Taxonomy is the method by which organisms are assigned to a genus and species group. It is a science that is constantly evolving due to our growing knowledge of a group of organisms. This is especially true of graptolite taxonomy. Early work with graptolites focused solely on naming graptolites for use in biostratigraphy, meaning that graptolites were loosely grouped based on their general appearance instead of evolutionary or trait based backing. As studies into the evolution in graptolite morphology, or genetics based traits increased, there was an increasing realization that synonymies, or the same type of organism with different taxonomic names, existed. Through carefully examination of graptolite literature these synonyms are slowly being identified (Mitchell et. al, unpublished data). However, the presence of synonyms may not only be due to changes in graptolite research through time. These synonyms may be geographically located either due to a cultural preference for generating new species or a tectonically strained region where morphology is more difficult to constrain. It may also be that particular authors were more likely to generate new species names due to a variety of factors.</span> 
+<span style="color:black">Taxonomy is the method by which organisms are assigned to a genus and species group. It is a science that is constantly evolving due to our growing knowledge of a group of organisms. This is especially true of graptolite taxonomy. Early work with graptolites focused solely on naming graptolites for use in biostratigraphy, meaning that graptolites were loosely grouped based on their general appearance instead of evolutionary or trait based backing. As studies into the evolution in graptolite morphology, or genetics based traits increased, there was an increasing realization that synonymies, or the same type of organism with different taxonomic names, existed. Through carefully examination of graptolite literature these synonyms are slowly being identified (Mitchell et al., unpublished data). However, the presence of synonyms may not only be due to changes in graptolite research through time. These synonyms may be geographically located either due to a cultural preference for generating new species or a tectonically strained region where morphology is more difficult to constrain. It may also be that particular authors were more likely to generate new species names due to a variety of factors.</span> 
 
 <span style="color:black">This research will attempt to examine any correlation by first mapping the presence of graptolites that both with and without synonyms on a world map to visually determine locations with more synonymies. This map will then be animated such that the graptolite locations will plot based upon the year that they were named. If there is a temporal correlation to synonymies, more synonyms should plot within a given time frame than others. Finally, the graptolites with synonyms will be grouped by the original naming author with the number of individual species summed per author to determine if there is an author based correlation.</span>
 
 
 # Materials and methods
 
-<span style="color:black">The presence of graptolite synonymies may be correlated to a number of factors including time, cultural or tectonic location, and author. The project will combine data on synonymies, contained within the Taxonomic Dictionary (Mitchell et. al., unpublished data), with graptolite locatlity information, complied as section data (Mitchell et. al., unpublished data). This will be used to:</span>
+<span style="color:black">The presence of graptolite synonymies may be correlated to a number of factors including time, cultural or tectonic location, and author. The project will combine data on synonymies, contained within the Taxonomic Dictionary (Mitchell et al., unpublished data), with graptolite locatlity information, complied as section data (Mitchell et al., unpublished data). This will be used to:</span>
 
-<span style="color:black">1. Examine geographic distribution of graptolites with synonymies compared to graptolites without synonymies</span>
+<span style="color:black">1. Examine geographic distribution of graptolites with synonymies compared to graptolites without synonymies</span>  
 <span style="color:black">2. Examine temporal distribution of graptolite synonymies</span>  
 <span style="color:black">3. Determine the number of synonymies based on naming author</span>  
 <span style="color:black">4. Determine number of synonymies per author per year.</span>
@@ -41,7 +41,7 @@ library(httr)
 library(gganimate)
 ```
 
-<span style="color:black">The data is contained in two comma separated files (CSV), the Taxonomic Dictionary and the section data.</span>
+<span style="color:black">The data are contained in two comma separated files (CSV), the Taxonomic Dictionary and the section data.</span>
 ```{r}
 #Load Taxonomic Dictionary
 
@@ -54,8 +54,8 @@ mySect=read.csv("data/sections_table format.csv", header=T, sep =",")
 
 ## Geographic Methodology
 
-<span style="color:black">After loading both CSV files, the section data and the Taxonomic Dictionary must be joined so that all the geographic locations are paired with the correct taxonomic information including the presence of senior synonyms. This data is then filtered by the senior synonym column in order to generate a list that contains only graptolite locations with named senior synonyms.</span>
-```{r}
+<span style="color:black">After loading both CSV files, the section data and the Taxonomic Dictionary must be joined so that all the geographic locations are paired with the correct taxonomic information including the presence of senior synonyms. These data are then filtered by the senior synonym column in order to generate a list that contains only graptolite locations with named senior synonyms.</span>
+```{r,warning=FALSE}
 #Join the sections data and the graptolite dictionary
 Grap_locate=full_join(mySect,myDict,by="GRCode")
 
@@ -63,7 +63,7 @@ Grap_locate=full_join(mySect,myDict,by="GRCode")
 synGrap_locate=filter(Grap_locate, senior.synonym!="*" & senior.synonym!=99999)
 ```
 
-<span style="color:black">These two data sets are then visually compared by overlapping the synonyms list over all of the graptolite locations on a world map.</span>
+<span style="color:black">These two data sets are visually compared by overlapping the synonyms list over all of the graptolite locations on a world map.</span>
 ```{r, fig.width=6, fig.height=3, fig.cap="Map illustrating graptolite locations",eval=FALSE}
 Grap_map_inter=leaflet() %>% 
   addTiles() %>% 
@@ -99,7 +99,7 @@ synGrap_1920_9807=filter(synGrap_year, date==1998 | date==1999 | date==2000 | da
 synGrap_20_0817=filter(synGrap_year, date==2008 | date==2009 | date==2010 | date==2011 | date==2012 | date==2013 | date==2014 | date==2015 | date==2016 | date==2017)
 ```
 
-<span style="color:black">These subdivisions are then mapped on a world map as individual layers to indicate if there is a geographic relation with the above decadal time breaks.</span>
+<span style="color:black">These subdivisions are mapped on a world map as individual layers to indicate any geographic relation in the above decadal time breaks.</span>
 ```{r, fig.width=6, fig.height=3, fig.cap="Map of graptolite locations grouped by decade", eval=FALSE}
 Grap_decade_inter=leaflet() %>% 
   addTiles() %>% 
@@ -134,7 +134,7 @@ Grap_decade_inter=leaflet() %>%
 frameWidget(Grap_decade_inter,height = 500)
 ```
 
-<span style="color:black">However, there is more variation in the number and locations of synonymies by year that is being time averaged on the decade scale. This differentiation is displayed using an animation.</span>
+<span style="color:black">However, there is more variation in the number and locations of synonymies by year that is time averaged on the decade scale. This differentiation is displayed using an animation which displays every year in the dataset.</span>
 ```{r, eval=FALSE}
 worldmap=borders("world",colour="gray50",fill="white")
 mapWorld=ggplot()+worldmap
@@ -151,7 +151,7 @@ gganimate(Grap_map,interval=3.5)
 
 ## Temporal and Authorial Analysis Methodology
 
-<span style="color:black">In order to observe any correlation between the number of graptolite synonymies and temporal factors or the naming author, the data from the Taxonomic Dictionary is first filtered and then the number of instances per year or author are counted. These are displayed in interactive tables.</span>
+<span style="color:black">In order to observe any correlation between the number of graptolite synonymies and temporal factors or the naming author, the data from the Taxonomic Dictionary are first filtered and then the number of instances per year or author are counted. These are displayed in interactive tables.</span>
 ```{r,eval=FALSE}
 synGrap=filter(myDict, senior.synonym!="*" & senior.synonym!=99999 & senior.synonym!=9999)
 
@@ -451,5 +451,5 @@ ggplot()+
 <span style="color:black">Unlike the results above, the number of graptolite synonymies does not seem to have a visual correlation related to geography. This is most likely due to both the global nature of the graptolites contained in the graptolite Taxonomic Dictionary, but also due to the clustered nature of graptolite preservation and collection. Further investigation is needed to determine if there is any significance to graptolite synonymies isolated to particular regions as observed in Figure 3.</span>
 
 # References
-<span style="color:black">Mitchell, Charles et. al., Graptolite Sections Data, unpublished data.</span>  
-<span style="color:black>Mitchell, Charles et. al. Graptolite Taxonomic Dictionary, unpublished data.</span>
+<span style="color:black">Mitchell, Charles et al., Graptolite Sections Data, unpublished data.</span>  
+<span style="color:black">Mitchell, Charles et al., Graptolite Taxonomic Dictionary, unpublished data.</span>
